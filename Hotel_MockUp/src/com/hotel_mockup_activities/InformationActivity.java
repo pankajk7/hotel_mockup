@@ -1,0 +1,89 @@
+package com.hotel_mockup_activities;
+
+import com.hotel_mockup.R;
+import com.hotel_mockup.R.layout;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+
+public class InformationActivity extends BaseActivity {
+
+	FrameLayout frameLayout;
+
+	EditText primaryLandLineEditText;
+	EditText primaryMobileEditText;
+	EditText primaryEmail;
+
+	EditText billingLandLineEditText;
+	EditText billingMobileEditText;
+	EditText bilingEmail;
+
+	EditText ownerLandLineEditText;
+	EditText ownerMobileEditText;
+	EditText ownerEmail;
+
+	Button saveButton;
+	Button nextButton;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		// setContentView(R.layout.information_layout);
+		frameLayout = (FrameLayout) findViewById(R.id.layout_container);
+		frameLayout.removeAllViews();
+		frameLayout.addView(getLayoutInflater().inflate(
+				R.layout.information_layout, null));
+		findViews();
+		setValues();
+		listeners();
+	}
+
+	public void findViews() {
+
+		stepsTextView = (TextView) findViewById(R.id.textview_base_stepstext);
+		pageNameTextView = (TextView) findViewById(R.id.textview_base_PageName);
+
+		saveButton = (Button) findViewById(R.id.button_information_save);
+		nextButton = (Button) findViewById(R.id.button_information_next);
+	}
+
+	public void setValues() {
+		Resources res = getResources();
+		String stepsString = String.format(res.getString(R.string.steps), 3);
+		stepsTextView.setText(stepsString);
+
+		pageNameTextView.setText("Contact Information");
+	}
+
+	public void listeners() {
+
+		saveButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				
+				nextButton.setEnabled(true);
+			}
+		});
+
+		nextButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(InformationActivity.this, CancellationPolicyActivity.class);
+				startActivity(intent);
+				finish();
+			}
+		});
+	}
+}
