@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/primaryEmail"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edittext_hotel_creation_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/name" />
+
+                <EditText
+                    android:id="@+id/edittext_hotel_creation_name"
+                    android:layout_width="match_parent"
+                   android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:inputType="textPersonName"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/zipcode" />
+
+                <EditText
+                    android:id="@+id/edittext_hotel_creation_zipcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:maxLength="6"
+                    android:layout_weight="1" 
+                    android:inputType="number"
+                    android:singleLine="true"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/city" />
+
+                <EditText
+                    android:id="@+id/edittext_hotel_creation_city"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:inputType="textPostalAddress"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/textviewstyle"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/address" />
+
+                <EditText
+                    android:id="@+id/edittext_hotel_creation_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/map" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/landmark1" />
+
+                <EditText
+                    android:id="@+id/edittext_hotel_creation_landmark1"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/landmark2" />
+
+                <EditText
+                    android:id="@+id/edittext_hotel_creation_landmark2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/website" />
+                <EditText
+                    android:id="@+id/edittext_hotel_creation_website"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                   android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/checkin" />
+                
+                <TextView 
+                    android:id="@+id/textview_hotel_creation_checkin"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|left"
+                    android:singleLine="true" />
+                
+            </LinearLayout>
+            
+                        
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:text="@string/checkout" />
+                
+                <TextView 
+                    android:id="@+id/textview_hotel_creation_checkout"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|left"
+                    android:singleLine="true" />
+                
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    style="@style/textviewstyle"
+                    android:text="@string/cutoff" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/sameday" />
+                
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    style="@style/textviewstyle"
+                    android:text="@string/days" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/totalroom" />
+                <EditText
+                    android:id="@+id/edittext_hotel_creation_totalroom"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/facilities" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/Description" />
+                <EditText
+                    android:id="@+id/edittext_hotel_creation_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/twitterlink" />
+                <EditText
+                    android:id="@+id/edittext_hotel_creation_twitter"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    style="@style/textviewstyle"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/facebooklink" />
+                <EditText
+                    android:id="@+id/edittext_hotel_creation_facebook"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <Button 
+            android:id="@+id/button_hotel_cration_save"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:text="Save"/>
+        <Button 
+            android:id="@+id/button_hotel_cration_next"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:text="Next"
+            android:enabled="false"/>
+    </LinearLayout>
+    
+</LinearLayout>

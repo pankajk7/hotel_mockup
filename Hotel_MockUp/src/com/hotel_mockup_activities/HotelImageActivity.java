@@ -7,16 +7,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Uploader;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.hotel_mockup.R;
 import com.hotel_mockup.R.layout;
+import com.hotel_mockup.entities.Images;
 import com.hotel_mockup_adapters.ImageListBaseAdapter;
+import com.hotel_mockup_data.DataEngine;
+import com.hotel_mockup_data.RestWebservices;
+import com.hotel_mockup_utils.AlertDialogMessage;
 import com.hotel_mockup_utils.BackgroundNetwork;
+import com.hotel_mockup_utils.BackgroundNetwork_withLoading;
+import com.hotel_mockup_utils.ConnectionDetector;
 import com.hotel_mockup_utils.Constants;
+import com.hotel_mockup_utils.DevicePreferences;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -44,48 +56,53 @@ public class HotelImageActivity extends BaseActivity {
 	Button addButton;
 	Button saveButton;
 	Button nextButton;
-	
+
 	ListView listView;
-	
+
+	ArrayList<String> addedImagesId;
+	public static ArrayList<String> deletedImagesId;
+
 	private static final int SELECT_PICTURE = 1;
 	private static final int PICK_gallery_IMAGE = 1;
-	
+
 	ImageListBaseAdapter objListBaseAdapter;
 	ArrayList<Bitmap> imageList;
 	FrameLayout frameLayout;
 	public static ArrayList<String> publicIdArrayList;
 	public static ArrayList<Boolean> isShow;
 	public static int position = -1;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.image_layout);
+		// setContentView(R.layout.image_layout);
 		frameLayout = (FrameLayout) findViewById(R.id.layout_container);
 		frameLayout.removeAllViews();
-		frameLayout.addView(getLayoutInflater().inflate(
-				R.layout.image_layout, null));
-		
+		frameLayout.addView(getLayoutInflater().inflate(R.layout.image_layout,
+				null));
+
 		findViews();
 		Listeners();
 		setValues();
 	}
-	
-	public void findViews(){
-		
+
+	public void findViews() {
+
 		stepsTextView = (TextView) findViewById(R.id.textview_base_stepstext);
 		pageNameTextView = (TextView) findViewById(R.id.textview_base_PageName);
-		
+
 		saveButton = (Button) findViewById(R.id.button_image_save);
 		nextButton = (Button) findViewById(R.id.button_image_next);
 		addButton = (Button) findViewById(R.id.button_image_addImage);
-		
+
 		listView = (ListView) findViewById(R.id.listview_image_list);
 		imageList = new ArrayList<Bitmap>();
 		publicIdArrayList = new ArrayList<String>();
 		isShow = new ArrayList<Boolean>();
+		addedImagesId = new ArrayList<String>();
+		deletedImagesId = new ArrayList<String>();
 	}
-	
+
 	public void setValues() {
 		Resources res = getResources();
 		String stepsString = String.format(res.getString(R.string.steps), 2);
@@ -93,13 +110,20 @@ public class HotelImageActivity extends BaseActivity {
 
 		pageNameTextView.setText("Hotel Images");
 	}
-	
-	
-	public void Listeners(){
+
+	public void Listeners() {
 		addButton.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
+
+				if (!new ConnectionDetector(HotelImageActivity.this)
+						.isConnectedToInternet()) {
+					new AlertDialogMessage(HotelImageActivity.this)
+							.showMessage("Error", Constants.NO_Internet);
+					return;
+				}
+
 				try {
 					Intent intent = new Intent();
 					intent.setType("image/*");
@@ -114,50 +138,72 @@ public class HotelImageActivity extends BaseActivity {
 				}
 			}
 		});
-		
+
 		saveButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (!new ConnectionDetector(HotelImageActivity.this)
+						.isConnectedToInternet()) {
+					new AlertDialogMessage(HotelImageActivity.this)
+							.showMessage("Error", Constants.NO_Internet);
+					return;
+				}
+
+				if (imageList.size() == 0) {
+					new AlertDialogMessage(HotelImageActivity.this)
+							.showMessage("Error",
+									"Must have to add a image to proceed.");
+					return;
+				}
+
+				if (addedImagesId.size() - deletedImagesId.size() > 0) {
+					createUpdateImage();
+				}
+
 				nextButton.setEnabled(true);
 			}
 		});
-		
+
 		nextButton.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(HotelImageActivity.this, InformationActivity.class);
+				Intent intent = new Intent(HotelImageActivity.this,
+						InformationActivity.class);
 				startActivity(intent);
 				finish();
 			}
 		});
 	}
-	
+
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		Uri selectedImageUri = null;
 		String filePath = null;
 		Bitmap bitmap;
-		if(requestCode == PICK_gallery_IMAGE){
+		if (requestCode == PICK_gallery_IMAGE) {
 			if (resultCode == Activity.RESULT_OK) {
 				selectedImageUri = data.getData();
 				filePath = null;
 
 				try {
 
-//					filePath = GetPathFromUri.getPath(HotelImageActivity.this,
-//							selectedImageUri);
+					// filePath =
+					// GetPathFromUri.getPath(HotelImageActivity.this,
+					// selectedImageUri);
 					filePath = getRealPathFromURI(selectedImageUri);
 					String[] imageNameArray = filePath.split("/");
 
 					if (filePath != null) {
+
 						bitmap = decodeFile(filePath);
-						Log.e("Bitmap", bitmap.toString());						
+						Log.e("Bitmap", bitmap.toString());
 						imageList.add(bitmap);
 						position++;
-						isShow.add(position,true);
-						objListBaseAdapter = new ImageListBaseAdapter(HotelImageActivity.this, imageList);
+						isShow.add(position, true);
+						objListBaseAdapter = new ImageListBaseAdapter(
+								HotelImageActivity.this, imageList);
 						listView.setAdapter(objListBaseAdapter);
-						uploadImage(bitmap,position);
+						uploadImage(bitmap, position);
 					}
 				} catch (Exception e) {
 					Toast.makeText(getApplicationContext(), "Internal error",
@@ -168,7 +214,7 @@ public class HotelImageActivity extends BaseActivity {
 			}
 		}
 	}
-	
+
 	public Bitmap decodeFile(String filePath) {
 		// Decode image size
 		BitmapFactory.Options o = new BitmapFactory.Options();
@@ -196,58 +242,129 @@ public class HotelImageActivity extends BaseActivity {
 		return bitmap1;
 
 	}
-	
+
 	public String getRealPathFromURI(Uri contentUri) {
-		  Cursor cursor = null;
-		  try { 
-		    String[] proj = { MediaStore.Images.Media.DATA };
-		    cursor = getContentResolver().query(contentUri,  proj, null, null, null);
-		    int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-		    cursor.moveToFirst();
-		    return cursor.getString(column_index);
-		  } finally {
-		    if (cursor != null) {
-		      cursor.close();
-		    }
-		  }
+		Cursor cursor = null;
+		try {
+			String[] proj = { MediaStore.Images.Media.DATA };
+			cursor = getContentResolver().query(contentUri, proj, null, null,
+					null);
+			int column_index = cursor
+					.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+			cursor.moveToFirst();
+			return cursor.getString(column_index);
+		} finally {
+			if (cursor != null) {
+				cursor.close();
+			}
 		}
-	
-	private void uploadImage(final Bitmap bitmap , final int position){
-		new BackgroundNetwork(HotelImageActivity.this){
+	}
+
+	private void uploadImage(final Bitmap bitmap, final int position) {
+		new BackgroundNetwork(HotelImageActivity.this) {
+			Cloudinary cloudinary;
+			String data = "";
+
 			protected Void doInBackground(Void[] params) {
-				ByteArrayOutputStream bos = new ByteArrayOutputStream(); 
-				bitmap.compress(CompressFormat.PNG, 0, bos); 
+				ByteArrayOutputStream bos = new ByteArrayOutputStream();
+				bitmap.compress(CompressFormat.PNG, 0, bos);
 				byte[] bitmapdata = bos.toByteArray();
-				ByteArrayInputStream inputStream = new ByteArrayInputStream(bitmapdata);
-				
+				ByteArrayInputStream inputStream = new ByteArrayInputStream(
+						bitmapdata);
+
 				Map<String, String> config = new HashMap<String, String>();
 				config.put("cloud_name", Constants.cloud_name);
 				config.put("api_key", Constants.api_key);
 				config.put("api_secret", Constants.api_secret);
-				Cloudinary cloudinary = new Cloudinary(config);
-				
+
 				try {
-					String string = cloudinary.uploader().upload(inputStream, Cloudinary.emptyMap()).toString();
-					JSONObject objJsonObject = new JSONObject(string);
-					publicIdArrayList.add(objJsonObject.getString("public_id").toString());
+					cloudinary = new Cloudinary(config);
+					data = cloudinary.uploader()
+							.upload(inputStream, Cloudinary.emptyMap())
+							.toString();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return null;
+
+			};
+
+			protected void onPostExecute(Void result) {
+				try {
+					if (!data.equals("") || data != null) {
+						JSONObject objJsonObject = new JSONObject(data);
+						// for displaying and removing from list
+						publicIdArrayList.add(objJsonObject.getString(
+								"public_id").toString());
+						// for checking against deleted images id
+						addedImagesId.add(objJsonObject.getString("public_id")
+								.toString());
+						isShow.set(position, false);
+						listView.setAdapter(objListBaseAdapter);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
-					Toast.makeText(HotelImageActivity.this, "Error Occur while uploading", Toast.LENGTH_SHORT).show();
+					Toast.makeText(HotelImageActivity.this,
+							"Error Occur while uploading", Toast.LENGTH_SHORT)
+							.show();
 				}
-				
-				return null;
-				
+
 			};
-			
-			protected void onPostExecute(Void result) {
-				int lastIndex = isShow.size();
-				isShow.set(position, false);
-				listView.setAdapter(objListBaseAdapter);
-				
-			};
-			
-		}.execute();		
-		
+
+		}.execute();
+
 	}
-	
+
+	public void createUpdateImage() {
+		new BackgroundNetwork_withLoading(HotelImageActivity.this) {
+			String resultData;
+
+			protected Void doInBackground(Void[] params) {
+				try {
+					String hotelId = new DevicePreferences().getString(
+							HotelImageActivity.this, Constants.Hotel_Id, "");
+
+					JSONArray addedImageArray = new JSONArray(addedImagesId);
+					JSONArray deletedImageArray = new JSONArray(deletedImagesId);
+
+					JSONObject jsonObject = new JSONObject();
+					jsonObject.put("add_image_ids", addedImageArray);
+					jsonObject.put("remove_image_ids", deletedImageArray);
+
+					JSONObject mainjsonJsonObject = new JSONObject();
+					mainjsonJsonObject.put(Constants.Authenticity_Token,
+							new DevicePreferences().getString(
+									HotelImageActivity.this,
+									Constants.Authenticity_Token, ""));
+					mainjsonJsonObject.put("hotel_id", hotelId);
+					mainjsonJsonObject.put("image_ids", jsonObject);
+
+					DataEngine obj = new DataEngine(HotelImageActivity.this);
+					resultData = obj.createUpdateImages(mainjsonJsonObject);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+			};
+
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				try {
+					if (resultData.equals("true")) {
+						new AlertDialogMessage(HotelImageActivity.this)
+								.showMessage("success",
+										"Image saved successfully");
+					} else {
+						new AlertDialogMessage(HotelImageActivity.this)
+								.showMessage("Error", "Failed to save Image.");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+					new AlertDialogMessage(HotelImageActivity.this)
+					.showMessage("Error", "Some Error occured while saving the Image.");
+				}
+
+			};
+		}.execute();
+	}
 }

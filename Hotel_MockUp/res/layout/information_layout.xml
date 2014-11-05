@@ -65,7 +65,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:inputType="phone" />
             </LinearLayout>
 
             <LinearLayout
@@ -92,7 +93,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true" />
+                    android:singleLine="true" 
+                    android:inputType="phone"/>
             </LinearLayout>
 
             <LinearLayout
@@ -173,7 +175,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:inputType="phone" />
             </LinearLayout>
 
             <LinearLayout
@@ -200,7 +203,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:inputType="phone" />
             </LinearLayout>
 
             <LinearLayout
@@ -281,7 +285,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true" />
+                    android:singleLine="true" 
+                    android:inputType="phone"/>
             </LinearLayout>
 
             <LinearLayout
@@ -308,7 +313,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:inputType="phone" />
             </LinearLayout>
 
             <LinearLayout

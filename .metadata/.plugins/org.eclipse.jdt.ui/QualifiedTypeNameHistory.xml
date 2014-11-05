@@ -1,2 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="android.provider.ContactsContract.CommonDataKinds.Email"/>
+<fullyQualifiedTypeName name="android.app.AlertDialog"/>
+<fullyQualifiedTypeName name="android.content.DialogInterface"/>
+<fullyQualifiedTypeName name="android.widget.TextView.OnEditorActionListener"/>
+<fullyQualifiedTypeName name="android.view.inputmethod.InputMethodManager"/>
+<fullyQualifiedTypeName name="com.hotel_mockup.entities.LoginUser"/>
+<fullyQualifiedTypeName name="org.apache.http.client.methods.HttpPost"/>
+<fullyQualifiedTypeName name="android.content.Intent"/>
+<fullyQualifiedTypeName name="org.apache.http.NameValuePair"/>
+<fullyQualifiedTypeName name="org.apache.http.message.BasicNameValuePair"/>
+<fullyQualifiedTypeName name="android.app.TimePickerDialog"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_utils.ConnectionDetector"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_utils.Validations"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_activities.LoginActivity"/>
+<fullyQualifiedTypeName name="android.widget.Button"/>
+<fullyQualifiedTypeName name="android.widget.CheckBox"/>
+<fullyQualifiedTypeName name="android.widget.RadioGroup"/>
+<fullyQualifiedTypeName name="java.security.PublicKey"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_activities.HotelCreationActivity"/>
+<fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_data.RestWebservices"/>
+<fullyQualifiedTypeName name="com.google.gson.JsonObject"/>
+<fullyQualifiedTypeName name="com.google.gson.Gson"/>
+<fullyQualifiedTypeName name="com.hotel_mockup.entities.Images"/>
+<fullyQualifiedTypeName name="org.json.JSONArray"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="org.apache.http.params.HttpParams"/>
+<fullyQualifiedTypeName name="org.apache.http.params.HttpConnectionParams"/>
+<fullyQualifiedTypeName name="org.apache.http.params.BasicHttpParams"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_utils.BackgroundNetwork_withLoading"/>
+<fullyQualifiedTypeName name="android.content.Context"/>
+<fullyQualifiedTypeName name="org.json.JSONObject"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_data.DataEngine"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_utils.DevicePreferences"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_activities.InformationActivity"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_utils.Constants"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_activities.CancellationPolicyActivity"/>
+<fullyQualifiedTypeName name="android.widget.RadioButton"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_utils.AlertDialogMessage"/>
+<fullyQualifiedTypeName name="com.hotel_mockup_activities.HotelImageActivity"/>
+<fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
+<fullyQualifiedTypeName name="android.widget.EditText"/>
+<fullyQualifiedTypeName name="com.hotel_mockup.R.id"/>
+</qualifiedTypeNameHistroy>

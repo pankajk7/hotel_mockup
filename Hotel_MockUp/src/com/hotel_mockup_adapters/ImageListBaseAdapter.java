@@ -1,6 +1,7 @@
 package com.hotel_mockup_adapters;
 
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,7 +74,7 @@ public class ImageListBaseAdapter extends BaseAdapter {
 				.findViewById(R.id.progressBar);
 		
 		if (HotelImageActivity.isShow.get(position) == true) {
-			progressBar.setVisibility(View.VISIBLE);
+			progressBar.setVisibility(View.VISIBLE);			
 		} else {
 			progressBar.setVisibility(View.INVISIBLE);
 		}
@@ -85,43 +86,49 @@ public class ImageListBaseAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				final int position = (Integer) v.getTag();
-				HotelImageActivity.isShow.set(position, true);
+				
+				imageList.remove(position);
+				HotelImageActivity.publicIdArrayList.remove(position);
+				HotelImageActivity.isShow.remove(position);
+				HotelImageActivity.position -= 1;
+				HotelImageActivity.deletedImagesId.add(HotelImageActivity.publicIdArrayList.get(position));
+				
+//				HotelImageActivity.isShow.set(position, true);
 				notifyDataSetChanged();
 
-				new BackgroundNetwork(context) {
-
-					String result = "";
-
-					protected Void doInBackground(Void[] params) {
-						try {
-
-							Map<String, String> config = new HashMap<String, String>();
-							config.put("cloud_name", Constants.cloud_name);
-							config.put("api_key", Constants.api_key);
-							config.put("api_secret", Constants.api_secret);
-							Cloudinary cloudinary = new Cloudinary(config);
-							result = cloudinary
-									.uploader()
-									.destroy(
-											HotelImageActivity.publicIdArrayList
-													.get(position), config)
-									.toString();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-						return null;
-					}
-
-					protected void onPostExecute(Void arg) {
-						if (!result.equals("")) {
-							imageList.remove(position);
-							HotelImageActivity.publicIdArrayList.remove(position);
-							HotelImageActivity.isShow.remove(position);
-							HotelImageActivity.position -= 1;
-						}
-						notifyDataSetChanged();
-					};
-				}.execute();
+//				new BackgroundNetwork(context) {
+//
+//					String result = "";
+//
+//					protected Void doInBackground(Void[] params) {
+//						try {
+//
+//							Map<String, String> config = new HashMap<String, String>();
+//							config.put("cloud_name", Constants.cloud_name);
+//							config.put("api_key", Constants.api_key);
+//							config.put("api_secret", Constants.api_secret);
+//							Cloudinary cloudinary = new Cloudinary(config);
+//							result = cloudinary
+//									.uploader()
+//									.destroy(HotelImageActivity.publicIdArrayList
+//													.get(position), config)
+//									.toString();
+//						} catch (IOException e) {
+//							e.printStackTrace();
+//						}
+//						return null;
+//					}
+//
+//					protected void onPostExecute(Void arg) {
+//						if (!result.equals("")) {
+//							imageList.remove(position);
+//							HotelImageActivity.publicIdArrayList.remove(position);
+//							HotelImageActivity.isShow.remove(position);
+//							HotelImageActivity.position -= 1;
+//						}
+//						notifyDataSetChanged();
+//					};
+//				}.execute();
 			}
 		});
 

@@ -1,0 +1,580 @@
+package com.nexusservicemanager.activity;
+
+import java.net.MalformedURLException;
+
+
+import com.nexusservicemanager.entity.User;
+import com.nexusservicemanager.R;
+import com.nexusservicemanager.services.NSMWebServices;
+import com.nexusservicemanager.util.BackgroundNetwork;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.location.Criteria;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.preference.EditTextPreference;
+import android.provider.Settings;
+import android.text.InputFilter;
+import android.text.Spanned;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+import android.widget.Toast;
+
+public class LoginActivity extends Activity {
+	EditText userNameEditText;
+	EditText passwordEditText;
+	EditText serviceUrlEditText;
+	CheckBox checkRemember;
+	SharedPreferences loginPreferences;
+	private SharedPreferences.Editor loginPrefsEditor;
+
+	public static boolean isLoggedIn;
+	public boolean isStartup;
+	public static User user;
+	public static String employeeId;
+	String lastSavedWebServiceUrl;
+	boolean isManintainanceCalled;
+	boolean isLoginButtonClicked;
+
+	{
+		isStartup = true;
+	}
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.login_activity);
+
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+
+
+		checkRemember = (CheckBox) findViewById(R.id.remember_checkbox);
+		userNameEditText = (EditText) findViewById(R.id.username_edittext);
+		passwordEditText = (EditText) findViewById(R.id.password_edittext);
+		serviceUrlEditText = (EditText) findViewById(R.id.service_url_edittext);
+		final Button loginButton = (Button) findViewById(R.id.login_button);
+		final Animation performAnimation = AnimationUtils.loadAnimation(this,
+				R.anim.alpha1);
+		// final Button settingsButton = (Button)
+		// findViewById(R.id.settings_button);
+//		serviceUrlEditText.setText("http://");
+		
+		
+		loginPreferences = getSharedPreferences("loginPrefs", MODE_PRIVATE);
+		loginPrefsEditor = loginPreferences.edit();
+		Boolean saveLogin = loginPreferences.getBoolean("saveLogin", false);
+
+		if (saveLogin == true) {
+			userNameEditText
+					.setText(loginPreferences.getString("username", ""));
+			passwordEditText
+					.setText(loginPreferences.getString("password", ""));
+			serviceUrlEditText.setText(loginPreferences.getString("url", ""));
+			checkRemember.setChecked(true);
+			Intent intent = new Intent(LoginActivity.this,
+					JobListActivity.class);
+			intent.putExtra("isRemember", true);
+			startActivity(intent);
+		}
+		else{
+			serviceUrlEditText.setText("http://");
+			serviceUrlEditText.setSelection(7);
+		}
+		InputFilter filter = new InputFilter() { 	        
+			@Override
+			public CharSequence filter(CharSequence source, int start, int end,
+					Spanned dest, int dstart, int dend) {
+
+				String str = dest.toString();
+							
+				if(dstart<7){
+					if(source.equals("")){
+						String temp;
+						temp = str.substring(dstart,dstart+1);						
+						return temp;
+					}
+					//2nd if should come first before the 3rd if condition
+					if(source.length() > 1){
+						;
+						return source;
+					}
+					
+					if(dest.toString().equals("")){
+						;
+						return "http://";
+					}
+					
+					return "";					
+				}
+				
+				return source;
+			}
+		}; 
+
+		serviceUrlEditText.setFilters(new InputFilter[]{filter}); 
+		// --------- End Title Bar-------------
+
+		loginButton.setOnClickListener(new View.OnClickListener() {
+			public void onClick(View v) {
+				loginButton.startAnimation(performAnimation);
+				loginButtonAction();
+			}
+		});
+		// settingsButton.setOnClickListener(new View.OnClickListener() {
+		// public void onClick(View v) {
+		// settingsButton.startAnimation(performAnimation);
+		// Intent intent = new Intent(LoginActivity.this,
+		// SettingsActivity.class);
+		// startActivity(intent);
+		// }
+		// });
+
+		NSMWebServices.webSerivceURL = loginPreferences.getString("settingUrl",
+				"");
+
+		lastSavedWebServiceUrl = NSMWebServices.webSerivceURL;
+
+		if (!NSMWebServices.webSerivceURL.equals("")) {
+			serviceUrlEditText.setText(NSMWebServices.webSerivceURL);
+			// checkMaintenenceFireWallAccessAndFailedLogin();
+		}
+		
+
+		
+		serviceUrlEditText
+				.setOnEditorActionListener(new OnEditorActionListener() {
+
+					@Override
+					public boolean onEditorAction(TextView v, int actionId,
+							KeyEvent event) {
+						if (serviceUrlEditText.getText().toString().trim()
+								.length() > 7) {
+							if (actionId == EditorInfo.IME_ACTION_NEXT) {
+								String urlString = serviceUrlEditText.getText().toString();
+								String tempString  = urlString.substring(7, urlString.length());
+								tempString = tempString.trim().replace(" ", "");
+								if(tempString.length() >= 7){
+									String subString = tempString.substring(0, 7);
+									if(subString.equals("http://")){
+										serviceUrlEditText.setText("http://"+tempString.substring(7, tempString.length()));
+									}
+								}
+								actionOnEditFinishEditText();
+							}
+						}
+
+						return false;
+					}
+				});
+		
+		// userNameEditText.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// actionOnEditFinishEditText();
+		// }
+		// });
+
+	}
+
+	private void actionOnEditFinishEditText() {
+//		String temp = serviceUrlEditText.getText().toString();
+//		temp = temp.subSequence(7, temp.length()).toString();
+//		temp.trim().replace(" ", "");
+//		serviceUrlEditText.setText(temp);
+//		serviceUrlEditText.setText(serviceUrlEditText.getText().toString()
+//				.trim().replace(" ", ""));
+
+		if (!lastSavedWebServiceUrl.equals(serviceUrlEditText.getText()
+				.toString().trim())
+				|| !loginPreferences.getBoolean("lastmaintenanceCheck", false)) {
+			if (!serviceUrlEditText.getText().toString().trim().equals("")) {
+				isLoginButtonClicked = false;
+				checkMaintenenceFireWallAccessAndFailedLogin();
+			}
+		}
+	}
+
+//	@Override
+//	protected void onResume() {
+//		super.onResume();
+//		if (isStartup) {
+//			checkMaintenenceFireWallAccessAndFailedLogin();
+//			isStartup = false;
+//		}
+//	}
+
+	private void checkMaintenenceFireWallAccessAndFailedLogin() {
+
+		loginPrefsEditor.putBoolean("lastmaintenanceCheck", false);
+		loginPrefsEditor.commit();
+
+		new BackgroundNetwork(LoginActivity.this) {
+			boolean isMaintinanceCheck;
+			Handler handler;
+
+			{
+				handler = new Handler() {
+					@Override
+					public void handleMessage(Message msg) {
+
+						if (msg.what == 0) {
+							AlertDialog alertDialog = new AlertDialog.Builder(
+									LoginActivity.this).create();
+							alertDialog.setTitle("Message");
+							alertDialog.setMessage("Server not found");
+							alertDialog.setButton("OK",
+									new DialogInterface.OnClickListener() {
+										public void onClick(
+												DialogInterface dialog,
+												int which) {
+
+										}
+									});
+							alertDialog.show();
+						}
+					}
+				};
+			}
+
+			protected Void doInBackground(Void[] params) {
+				try {
+					isMaintinanceCheck = new NSMWebServices(LoginActivity.this,
+							serviceUrlEditText.getText().toString().trim())
+							.MaintenanceCheck();
+				} catch (MalformedURLException malformedURLException) {
+
+					handler.sendEmptyMessage(1);
+					this.cancel(true);
+					super.onPostExecute(null);
+
+				} catch (Exception e) {
+
+					handler.sendEmptyMessage(0);
+					this.cancel(true);
+					super.onPostExecute(null);
+				}
+				return null;
+			};
+
+			protected void onPostExecute(Void result) {
+				NSMWebServices.webSerivceURL = serviceUrlEditText.getText()
+						.toString().trim();
+
+				loginPrefsEditor.putString("settingUrl",
+						NSMWebServices.webSerivceURL);
+				loginPrefsEditor.commit();
+
+				lastSavedWebServiceUrl = NSMWebServices.webSerivceURL;
+
+				if (!isMaintinanceCheck) {
+					new BackgroundNetwork(LoginActivity.this) {
+						boolean isFirewallAccess;
+
+						protected Void doInBackground(Void[] params) {
+							isFirewallAccess = new NSMWebServices(
+									LoginActivity.this)
+									.FirewallAccess("123456");
+							return null;
+						};
+
+						protected void onPostExecute(Void result) {
+
+							super.onPostExecute(result);
+							if (isFirewallAccess) {
+								new BackgroundNetwork(LoginActivity.this) {
+									boolean isFailedLoginCheck;
+
+									protected Void doInBackground(Void[] params) {
+										isFailedLoginCheck = new NSMWebServices(
+												LoginActivity.this)
+												.FailedLoginCheck("123456");
+										return null;
+									};
+
+									protected void onPostExecute(Void result) {
+										if (isFailedLoginCheck) {
+											loginPrefsEditor.putBoolean(
+													"lastmaintenanceCheck",
+													true);
+											loginPrefsEditor.commit();
+											isManintainanceCalled = true;
+
+											if (isLoginButtonClicked) {
+												loginWebServiceCall();
+											} else {
+												// checkLBSEnabled();
+											}
+											isLoginButtonClicked = false;
+
+											/*
+											 * AlertDialog.Builder dlgAlert =
+											 * new AlertDialog.Builder(
+											 * LoginActivity.this);
+											 * 
+											 * dlgAlert.setMessage(
+											 * "You are ready to login now");
+											 * dlgAlert.setPositiveButton( "Ok",
+											 * new
+											 * DialogInterface.OnClickListener()
+											 * { public void onClick(
+											 * DialogInterface dialog, int
+											 * which) { // dismiss the // dialog
+											 * if (isLoginButtonClicked) {
+											 * loginWebServiceCall(); } else {
+											 * // checkLBSEnabled(); }
+											 * isLoginButtonClicked = false; }
+											 * }); dlgAlert.setCancelable(true);
+											 * dlgAlert.create().show();
+											 */
+										} else {
+											AlertDialog.Builder dlgAlert = new AlertDialog.Builder(
+													LoginActivity.this);
+											dlgAlert.setTitle("Message");
+											dlgAlert.setMessage("You can't login now, login check is failed");
+											dlgAlert.setPositiveButton(
+													"Ok",
+													new DialogInterface.OnClickListener() {
+														public void onClick(
+																DialogInterface dialog,
+																int which) {
+															// dismiss the
+															// dialog
+														}
+													});
+											dlgAlert.setCancelable(true);
+											dlgAlert.create().show();
+										}
+										super.onPostExecute(result);
+									};
+								}.execute();
+							} else {
+								AlertDialog.Builder dlgAlert = new AlertDialog.Builder(
+										LoginActivity.this);
+								dlgAlert.setTitle("Message");
+								dlgAlert.setMessage("You don't have firewall access.");
+								dlgAlert.setPositiveButton("Ok",
+										new DialogInterface.OnClickListener() {
+											public void onClick(
+													DialogInterface dialog,
+													int which) {
+												// dismiss the dialog
+											}
+										});
+								dlgAlert.setCancelable(true);
+								dlgAlert.create().show();
+							}
+						};
+					}.execute();
+
+				} else {
+					AlertDialog.Builder dlgAlert = new AlertDialog.Builder(
+							LoginActivity.this);
+					dlgAlert.setTitle("Message");
+					dlgAlert.setMessage("App is under maintainance, please try later.");
+					dlgAlert.setPositiveButton("Ok",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int which) {
+								}
+							});
+					dlgAlert.setCancelable(true);
+					dlgAlert.create().show();
+				}
+				super.onPostExecute(result);
+			};
+
+		}.execute();
+
+	}
+
+	private void loginButtonAction() {
+
+		if (userNameEditText.length() > 0 && passwordEditText.length() > 0) {
+
+			NSMWebServices.webSerivceURL = serviceUrlEditText.getText()
+					.toString().trim();
+
+			if (NSMWebServices.webSerivceURL.length() > 0) {
+				if (validateWebServiceURL(NSMWebServices.webSerivceURL)) {
+					if (!isManintainanceCalled) {
+						isLoginButtonClicked = true;
+						checkMaintenenceFireWallAccessAndFailedLogin();
+					} else {
+						loginWebServiceCall();
+					}
+				} else {
+					LoginActivity.this.showDialog(5);
+
+				}
+			} else {
+				LoginActivity.this.showDialog(4);
+			}
+		} else {
+			LoginActivity.this.showDialog(2);
+		}
+	}
+
+	private boolean validateWebServiceURL(String url) {
+		// TODO: to be implement
+		return true;
+	}
+
+	void checkLBSEnabled() {
+
+		LocationManager lm = null;
+		boolean gps_enabled = false;
+		if (lm == null) {
+			lm = (LocationManager) LoginActivity.this
+					.getSystemService(Context.LOCATION_SERVICE);
+		}
+		try {
+			gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		} catch (Exception ex) {
+		}
+		// try {
+		// network_enabled = lm
+		// .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		// } catch (Exception ex) {
+		// }
+
+		// if (!gps_enabled && !network_enabled) {
+		if (!gps_enabled) {
+
+			AlertDialog alertDialog = new AlertDialog.Builder(
+					LoginActivity.this).create();
+			alertDialog.setTitle("Message");
+			alertDialog.setMessage("Please enable location services.");
+			alertDialog.setButton(" OK ",
+					new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int which) {
+							Intent myIntent = new Intent(
+									Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+							LoginActivity.this.startActivity(myIntent);
+						}
+					});
+			alertDialog.show();
+		}
+	}
+
+	void loginWebServiceCall() {
+		LoginActivity.isLoggedIn = true;
+		LoginActivity.user = new User(userNameEditText.getText().toString(),
+				passwordEditText.getText().toString(), null);
+		new BackgroundNetwork(LoginActivity.this) {
+			// String employeeId = null;
+
+			protected Void doInBackground(Void[] params) {
+				employeeId = new NSMWebServices(LoginActivity.this)
+						.SecureLogin(userNameEditText.getText().toString()
+								.trim(), passwordEditText.getText().toString()
+								.trim(), "123456");
+				return null;
+			};
+
+			protected void onPostExecute(Void result) {
+				super.onPostExecute(result);
+				Intent intent = new Intent(LoginActivity.this,
+						JobListActivity.class);
+				System.out.println(">>>employeeId>>>" + employeeId);
+				if (employeeId != null && !employeeId.equals("0")) {
+					intent.putExtra("employeeId", employeeId);
+					intent.putExtra("isRemember", false);
+					if (checkRemember.isChecked()) {
+						loginPrefsEditor.putBoolean("saveLogin", true);
+						loginPrefsEditor.putString("username", userNameEditText
+								.getText().toString());
+						loginPrefsEditor.putString("password", passwordEditText
+								.getText().toString());
+						loginPrefsEditor.putString("url", serviceUrlEditText
+								.getText().toString());
+						loginPrefsEditor.commit();
+					} else {
+						loginPrefsEditor.clear();
+						loginPrefsEditor.commit();
+					}
+					startActivity(intent);
+					overridePendingTransition(R.anim.slide_in_right,
+							R.anim.slide_out_left);
+					// LoginActivity.this.finish();
+				} else {
+					LoginActivity.this.showDialog(3);
+				}
+			};
+		}.execute();
+	}
+
+	protected Dialog onCreateDialog(int paramInt) {
+		switch (paramInt) {
+		default:
+			break;
+
+		case 1: {
+			showDialogBox("To use the application network connection is required."
+					+ "\n"
+					+ "\n"
+					+ "Please check your network settings."
+					+ "\n");
+			break;
+		}
+		case 2: {
+			showDialogBox("Please fill the login information.");
+			break;
+		}
+		case 3: {
+			showDialogBox("Username/Password is invalid.");
+			break;
+		}
+		case 4: {
+			showDialogBox("Please enter the service url.");
+			break;
+		}
+		case 5: {
+			showDialogBox("Please enter a valid service url.");
+			break;
+		}
+		}
+		return null;
+	}
+
+	private void showDialogBox(String message) {
+		AlertDialog.Builder dlgAlert = new AlertDialog.Builder(
+				LoginActivity.this);
+		dlgAlert.setTitle("Message");
+		dlgAlert.setMessage(message);
+		dlgAlert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+
+			}
+		});
+		dlgAlert.setCancelable(true);
+		dlgAlert.create().show();
+
+	}
+	
+	
+
+}

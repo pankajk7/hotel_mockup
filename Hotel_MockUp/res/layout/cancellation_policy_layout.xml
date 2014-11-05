@@ -32,7 +32,7 @@
                     android:textSize="14dp" />
 
                 <CheckBox
-                    android:id="@+id/checkbox_cancellation_policy_booking"
+                    android:id="@+id/checkbox_cancellation_policy_nonRefundable"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp" />
@@ -58,7 +58,8 @@
                     android:id="@+id/spinner_cancelllation_policy_days"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:prompt="@string/condition_prompt" />
             </LinearLayout>
 
             <LinearLayout
@@ -101,6 +102,7 @@
                     android:textSize="14dp" />
 
                 <RadioGroup
+                    android:id="@+id/radioGroup_cancellationPolicy_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -109,15 +111,20 @@
 
                     <RadioButton
                         android:id="@+id/radiobutton_cancellation_policy_emailYes"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Yes" />
+                        android:layout_weight="1"
+                        android:text="Yes" 
+                        android:textColor="#000"
+                        android:checked="true"/>
 
                     <RadioButton
                         android:id="@+id/radiobutton_cancellation_policy_emailNo"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="No" />
+                        android:layout_weight="1"
+                        android:text="No"
+                        android:textColor="#000" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -138,6 +145,7 @@
                     android:textSize="14dp" />
 
                 <RadioGroup
+                    android:id="@+id/radioGroup_cancellationPolicy_sms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -146,11 +154,20 @@
 
                     <RadioButton
                         android:id="@+id/radiobutton_cancellation_policy_smsYes"
-                        android:text="Yes" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Yes" 
+                        android:textColor="#000"
+                        android:checked="true" />
 
                     <RadioButton
                         android:id="@+id/radiobutton_cancellation_policy_smsNo"
-                        android:text="No" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="No" 
+                        android:textColor="#000" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -171,6 +188,7 @@
                     android:textSize="14dp" />
 
                 <RadioGroup
+                    android:id="@+id/radioGroup_cancellationPolicy_notification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -179,11 +197,20 @@
 
                     <RadioButton
                         android:id="@+id/radiobutton_cancellation_policy_notificationYes"
-                        android:text="Yes" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Yes" 
+                        android:textColor="#000" 
+                        android:checked="true"/>
 
                     <RadioButton
                         android:id="@+id/radiobutton_cancellation_policy_notificationNo"
-                        android:text="No" />
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="No" 
+                        android:textColor="#000" />
                 </RadioGroup>
             </LinearLayout>
         </LinearLayout>
@@ -205,13 +232,13 @@
             android:text="Save" />
 
         <Button
-            android:id="@+id/button_cancellation_policy_next"
+            android:id="@+id/button_cancellation_policy_finish"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:enabled="false"
-            android:text="Next" />
+            android:text="Finish" />
     </LinearLayout>
-    
+
 </LinearLayout>

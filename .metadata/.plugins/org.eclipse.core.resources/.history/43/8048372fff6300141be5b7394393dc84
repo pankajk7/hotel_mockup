@@ -1,0 +1,39 @@
+package com.hotel_mockup_data;
+
+
+import java.util.ArrayList;
+
+import org.apache.http.NameValuePair;
+
+import com.hotel_mockup.entities.LoginUser;
+
+import android.content.Context;
+
+
+public class DataEngine {
+	Context context;
+	String urlString = "http://54.255.180.239/";
+	
+	public DataEngine(Context context) {
+		this.context = context;
+	}
+
+	
+	public LoginUser checkLogin(ArrayList<NameValuePair> list)
+	{
+		urlString = urlString + "backend/session";
+		RestfulService restfulService=new RestfulService();
+		DataParser dataParser= new DataParser();		
+		return dataParser.parseLoginDetails(restfulService.loginPost(urlString,list));
+	}
+	
+	public String createHotel(ArrayList<NameValuePair> list)
+	{
+		urlString = urlString + "backend/hotels";
+		RestfulService restfulService=new RestfulService();
+		DataParser dataParser= new DataParser();		
+		return dataParser.parseHotelCreation(restfulService.postWithDataInResponse(urlString,list));
+	}
+        
+	
+}

@@ -20,63 +20,70 @@ public final class R {
     }
     public static final class drawable {
         public static final int close=0x7f020000;
-        public static final int edittext_background=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int loadingicon=0x7f020003;
-        public static final int my_progress_indeterminate=0x7f020004;
+        public static final int down_arrow=0x7f020001;
+        public static final int edittext_background=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int loadingicon=0x7f020004;
+        public static final int my_progress_indeterminate=0x7f020005;
     }
     public static final class id {
-        public static final int button_cancellation_policy_next=0x7f08000d;
-        public static final int button_cancellation_policy_save=0x7f08000c;
-        public static final int button_hotel_cration_next=0x7f08001d;
-        public static final int button_hotel_cration_save=0x7f08001c;
-        public static final int button_image_addImage=0x7f08001e;
-        public static final int button_image_next=0x7f080021;
-        public static final int button_image_save=0x7f080020;
-        public static final int button_information_next=0x7f080032;
-        public static final int button_information_save=0x7f080031;
-        public static final int checkbox_cancellation_policy_booking=0x7f080003;
-        public static final int edittext_hotel_creation_address=0x7f080012;
-        public static final int edittext_hotel_creation_city=0x7f080011;
-        public static final int edittext_hotel_creation_description=0x7f080019;
-        public static final int edittext_hotel_creation_email=0x7f08000e;
-        public static final int edittext_hotel_creation_facebook=0x7f08001b;
-        public static final int edittext_hotel_creation_landmark1=0x7f080013;
-        public static final int edittext_hotel_creation_landmark2=0x7f080014;
-        public static final int edittext_hotel_creation_name=0x7f08000f;
-        public static final int edittext_hotel_creation_totalroom=0x7f080018;
-        public static final int edittext_hotel_creation_twitter=0x7f08001a;
-        public static final int edittext_hotel_creation_website=0x7f080015;
-        public static final int edittext_hotel_creation_zipcode=0x7f080010;
-        public static final int edittext_information_billingEmail=0x7f08002c;
-        public static final int edittext_information_billingLandLine=0x7f08002a;
-        public static final int edittext_information_billingMobile=0x7f08002b;
-        public static final int edittext_information_ownerEmail=0x7f080030;
-        public static final int edittext_information_ownerLandLine=0x7f08002e;
-        public static final int edittext_information_ownerMobile=0x7f08002f;
-        public static final int edittext_information_primaryEmail=0x7f080028;
-        public static final int edittext_information_primaryLandLine=0x7f080026;
-        public static final int edittext_information_primaryMobile=0x7f080027;
-        public static final int imageButton_imageListItem_delete=0x7f080024;
-        public static final int imageview_imageListItem_image=0x7f080023;
+        public static final int button_cancellation_policy_finish=0x7f080010;
+        public static final int button_cancellation_policy_save=0x7f08000f;
+        public static final int button_hotel_cration_next=0x7f080020;
+        public static final int button_hotel_cration_save=0x7f08001f;
+        public static final int button_image_addImage=0x7f080021;
+        public static final int button_image_next=0x7f080024;
+        public static final int button_image_save=0x7f080023;
+        public static final int button_information_next=0x7f080035;
+        public static final int button_information_save=0x7f080034;
+        public static final int button_login_signIn=0x7f080038;
+        public static final int checkbox_cancellation_policy_nonRefundable=0x7f080003;
+        public static final int edittext_hotel_creation_address=0x7f080015;
+        public static final int edittext_hotel_creation_city=0x7f080014;
+        public static final int edittext_hotel_creation_description=0x7f08001c;
+        public static final int edittext_hotel_creation_email=0x7f080011;
+        public static final int edittext_hotel_creation_facebook=0x7f08001e;
+        public static final int edittext_hotel_creation_landmark1=0x7f080016;
+        public static final int edittext_hotel_creation_landmark2=0x7f080017;
+        public static final int edittext_hotel_creation_name=0x7f080012;
+        public static final int edittext_hotel_creation_totalroom=0x7f08001b;
+        public static final int edittext_hotel_creation_twitter=0x7f08001d;
+        public static final int edittext_hotel_creation_website=0x7f080018;
+        public static final int edittext_hotel_creation_zipcode=0x7f080013;
+        public static final int edittext_information_billingEmail=0x7f08002f;
+        public static final int edittext_information_billingLandLine=0x7f08002d;
+        public static final int edittext_information_billingMobile=0x7f08002e;
+        public static final int edittext_information_ownerEmail=0x7f080033;
+        public static final int edittext_information_ownerLandLine=0x7f080031;
+        public static final int edittext_information_ownerMobile=0x7f080032;
+        public static final int edittext_information_primaryEmail=0x7f08002b;
+        public static final int edittext_information_primaryLandLine=0x7f080029;
+        public static final int edittext_information_primaryMobile=0x7f08002a;
+        public static final int edittext_login_email=0x7f080036;
+        public static final int edittext_login_password=0x7f080037;
+        public static final int imageButton_imageListItem_delete=0x7f080027;
+        public static final int imageview_imageListItem_image=0x7f080026;
         public static final int layout_container=0x7f080002;
-        public static final int listview_image_list=0x7f08001f;
-        public static final int progressBar=0x7f080022;
-        public static final int radiobutton_cancellation_policy_emailNo=0x7f080007;
-        public static final int radiobutton_cancellation_policy_emailYes=0x7f080006;
-        public static final int radiobutton_cancellation_policy_notificationNo=0x7f08000b;
-        public static final int radiobutton_cancellation_policy_notificationYes=0x7f08000a;
-        public static final int radiobutton_cancellation_policy_smsNo=0x7f080009;
-        public static final int radiobutton_cancellation_policy_smsYes=0x7f080008;
+        public static final int listview_image_list=0x7f080022;
+        public static final int progressBar=0x7f080025;
+        public static final int radioGroup_cancellationPolicy_email=0x7f080006;
+        public static final int radioGroup_cancellationPolicy_notification=0x7f08000c;
+        public static final int radioGroup_cancellationPolicy_sms=0x7f080009;
+        public static final int radiobutton_cancellation_policy_emailNo=0x7f080008;
+        public static final int radiobutton_cancellation_policy_emailYes=0x7f080007;
+        public static final int radiobutton_cancellation_policy_notificationNo=0x7f08000e;
+        public static final int radiobutton_cancellation_policy_notificationYes=0x7f08000d;
+        public static final int radiobutton_cancellation_policy_smsNo=0x7f08000b;
+        public static final int radiobutton_cancellation_policy_smsYes=0x7f08000a;
         public static final int spinner_cancelllation_policy_condition=0x7f080005;
         public static final int spinner_cancelllation_policy_days=0x7f080004;
         public static final int textview_base_PageName=0x7f080001;
         public static final int textview_base_stepstext=0x7f080000;
-        public static final int textview_hotel_creation_checkin=0x7f080016;
-        public static final int textview_hotel_creation_checkout=0x7f080017;
-        public static final int textview_information_billingContact=0x7f080029;
-        public static final int textview_information_ownerContact=0x7f08002d;
-        public static final int textview_information_primaryContact=0x7f080025;
+        public static final int textview_hotel_creation_checkin=0x7f080019;
+        public static final int textview_hotel_creation_checkout=0x7f08001a;
+        public static final int textview_information_billingContact=0x7f08002c;
+        public static final int textview_information_ownerContact=0x7f080030;
+        public static final int textview_information_primaryContact=0x7f080028;
     }
     public static final class layout {
         public static final int base_layout=0x7f030000;
@@ -85,6 +92,7 @@ public final class R {
         public static final int image_layout=0x7f030003;
         public static final int image_list_items=0x7f030004;
         public static final int information_layout=0x7f030005;
+        public static final int login_layout=0x7f030006;
     }
     public static final class string {
         public static final int Description=0x7f050014;
@@ -97,6 +105,7 @@ public final class R {
         public static final int checkin=0x7f05000d;
         public static final int checkout=0x7f05000e;
         public static final int city=0x7f050007;
+        public static final int condition_prompt=0x7f050026;
         public static final int cutoff=0x7f05000f;
         public static final int days=0x7f050011;
         public static final int facebooklink=0x7f050016;
@@ -121,12 +130,14 @@ public final class R {
         public static final int title_activity_cancellation_policy=0x7f050025;
         public static final int title_activity_image=0x7f050024;
         public static final int title_activity_information=0x7f050017;
+        public static final int title_activity_login=0x7f050027;
         public static final int totalroom=0x7f050012;
         public static final int twitterlink=0x7f050015;
         public static final int website=0x7f05000c;
         public static final int zipcode=0x7f050006;
     }
     public static final class style {
+        public static final int ActionBarStyle=0x7f070001;
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
@@ -152,8 +163,8 @@ public final class R {
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f070001;
-        public static final int edittextstyle=0x7f070002;
-        public static final int textviewstyle=0x7f070003;
+        public static final int AppTheme=0x7f070002;
+        public static final int edittextstyle=0x7f070003;
+        public static final int textviewstyle=0x7f070004;
     }
 }

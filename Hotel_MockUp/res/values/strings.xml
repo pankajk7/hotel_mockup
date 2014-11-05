@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    
-    <string name="app_name">Hotel_MockUp</string>
+    <string name="app_name">Hotel MockUp</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="steps">Steps %1$d of 4</string>
-    <string name="primaryEmail">Primary Email</string>
-    <string name="name">Name</string>
-    <string name="zipcode">ZipCode</string>
-    <string name="city">City</string>
-    <string name="address">Address</string>
+    <string name="primaryEmail">Primary Email*</string>
+    <string name="name">Name*</string>
+    <string name="zipcode">ZipCode*</string>
+    <string name="city">City*</string>
+    <string name="address">Address*</string>
     <string name="map">Map</string>
-    <string name="landmark1">LandMark 1</string>
+    <string name="landmark1">LandMark 1*</string>
     <string name="landmark2">LandMark 2</string>
     <string name="website">Website</string>
     <string name="checkin">Check in Time</string>
@@ -38,10 +37,9 @@
     <string name="owner_email">mobile</string>
     <string name="billing_contact_information">Billing Contact Information</string>
     <string name="owner_contact_information">Owner Contact Information</string>
-    
     <string name="title_activity_image">ImageActivity</string>
     <string name="title_activity_cancellation_policy">CancellationPolicyActivity</string>
-    
+
     <string-array name="Days">
         <item>Day of arrival (Check in time)</item>
         <item>day 1</item>
@@ -50,11 +48,13 @@
         <item>day 7</item>
         <item>day 14</item>
     </string-array>
-    
     <string-array name="Condition">
         <item>of the first night</item>
         <item>of the full stay</item>
     </string-array>
     
-    
+    <string name="condition_prompt">Select Days</string>
+
+    <string name="title_activity_login">LoginActivity</string>
+
 </resources>

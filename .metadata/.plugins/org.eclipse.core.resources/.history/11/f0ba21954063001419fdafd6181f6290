@@ -1,0 +1,26 @@
+package com.hotel_mockup_utils;
+
+public class Constants {
+	
+	
+	public final static String cloud_name = "dupm90oys";
+	public final static String api_key = "463322914248498";
+	public final static String api_secret = "ZigrckTQXlMAdwW1sISnvVljIAU";
+	
+	public final static String authenticity_token = "";
+	
+	public final static String PREF_FILE_NAME = "hotel_mockup";
+	public final static String primaryEmail = "PrimaryEmail";
+	public final static String name = "name";
+	public final static String zipCode = "zipCode";
+	public final static String city = "City";
+	public final static String address = "Address";
+	public final static String landmark1 = "LandMark1";
+	public final static String landmark2 = "LandMark2";
+	public final static String website = "Website";
+	public final static String totalroom = "TotalRoom";
+	public final static String description = "Descrition";
+	public final static String twitterLink = "TwitterLink";
+	public final static String facebookLink = "FacebookLink";
+	
+}

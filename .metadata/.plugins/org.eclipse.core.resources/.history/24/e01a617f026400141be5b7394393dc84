@@ -1,0 +1,1270 @@
+package com.hotel_mockup_data;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.hotel_mockup_utils.ProcessLoaderIndication;
+import com.restservice.Http;
+import com.restservice.HttpFactory;
+import com.restservice.HttpResponse;
+import com.restservice.NetworkError;
+import com.restservice.ResponseHandler;
+
+public class RestWebservices {
+
+	Context context;
+	String baseURL;
+	String urlSuffix;
+	String resourceName;
+	ProcessLoaderIndication process;
+
+	// String authorizationString;
+
+	public RestWebservices(Context context) {
+		baseURL = "http://54.255.180.239";
+		urlSuffix = "/backend/";
+		this.context = context;
+		// authorizationString = "";
+		process = new ProcessLoaderIndication(this.context);
+	}
+
+	private String getServiceURL(String resourceName, String extraParameters) {
+//		return baseURL + urlSuffix + resourceName + extraParameters;
+		return Constants.SERVER_URL + resourceName+extraParameters;
+	}
+
+	public void onComplete() {
+		process.hideDialog();
+	}
+
+	public void onFailure(NetworkError error) {
+
+	}
+
+	public void onError(String message, HttpResponse response) {
+
+	}
+	
+	public void onSuccess(String message, String success) {
+
+	}
+
+	public void onSuccess(Object object, HttpResponse response) {
+	Log.d("Success", "testing");
+		}
+
+	public void onSuccess(Object[] object, HttpResponse response) {
+	}
+
+	public void onSuccess(String data, HttpResponse response) {
+
+	}
+
+	public void onSuccess(ITZipzError objItZipzError) {
+
+	}
+
+	public void serviceCall(String resourceName, String extraParameters) {
+		String url = getServiceURL(resourceName, extraParameters);
+
+		if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.getDriverStatus)) {
+			getDriverStatus(url);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.getDriverWorkStatus)) {
+			getDriverWorkStatus(url);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.DriverCommisionByDate)) {
+			getDriverCommisionByDate(url);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.DriverDeliveryCountByDate)) {
+			getDriverDeliveryCountByDate(url);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.DriverVehicleType)) {
+			getDriverVehicleType(url);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.DriverPickUpItem)) {
+			getDriverPickUpItem(url);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.EmailAlreadyExists)) {
+			getEmailAlreadyExists(url);
+		}else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.GETDRIVER_CURRENTORDER)) {
+			getDriverCurrentOrder(url);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.GetLiveOrdersbyZipcode)) {
+			getLiveOrdersbyZipcode(url);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.GetDriverByID)) {
+			getDriverByID(url);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.GetDriverOrderCountsreport)) {
+			getDriverOrderCountsreport(url);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.GetCurrentOrderbyorderID)) {
+			getCurrentOrderbyorderID(url);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.GetDriverRatings)) {
+			getDriverRatings(url);
+		} 
+	}
+	
+	public void serviceCall(String resourceName, String extraParameters,
+			Object object) {
+		String url = getServiceURL(resourceName, extraParameters);
+
+		if (resourceName.equalsIgnoreCase(DriverServiceUrls.loginString)) {
+			getDriverLogin(url, object);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.registerString)) {
+			doDriverSignUp(url, object);
+		} else if (resourceName.equalsIgnoreCase(DriverServiceUrls.mldString)) {
+			getMLDNo(url);
+		}  else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.Forgot_Password)) {
+			forgotPassword(url, object);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.updateDriverWorkStatus)) {
+			updateDriverWorkStatus(url, object);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.updateDriverStatus)) {
+			updateDriverStatus(url, object);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.SaveDriversAcceptedOrders)) {
+			saveDriversAcceptedOrders(url, object);
+		}else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.EditDriver)) {
+			updateDriverProfile(url, object);
+		} else if (resourceName
+				.equalsIgnoreCase(DriverServiceUrls.ChangePassword)) {
+			changePassword(url, object);
+		}
+	}
+	
+//	public void serviceCallUsingNVP(String resourceName, String extraParameters,
+//			NameValuePair nvp) {
+//		String url = getServiceURL(resourceName, extraParameters);
+//		if (resourceName
+//				.equalsIgnoreCase(DriverServiceUrls.Forgot_Password)) {
+//			forgotPassword(url, nvp);
+//		} 
+//	}
+
+	private void getDriverLogin(String url, Object objDriver) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.post(url).data(objDriver).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				onSuccess(data, response);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+
+	private void doDriverSignUp(String url, Object object) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.post(url).data(object).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				onSuccess(data, response);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+
+	// GET
+	private void getMLDNo(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				onSuccess(data, response);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+
+	private void getDriverVehicleType(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				onSuccess(data, response);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+
+	private void getDriverPickUpItem(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				onSuccess(data, response);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+
+	private void getDriverStatus(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<DriverStatus>() {
+			@Override
+			public void success(DriverStatus data, HttpResponse response) {
+				onSuccess(data, response);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+
+//	private void getDriverWorkStatus(String url) {
+//		process.showDialog();
+//		Http http = HttpFactory.create(this.context);
+//		http.get(url).handler(new ResponseHandler<DriverWorkStatus>() {
+//			@Override
+//			public void success(DriverWorkStatus data, HttpResponse response) {
+//				try {
+//					// JSONObject jsonObject = new JSONObject(data);
+//					// DriverWorkStatus objDriverWorkStatus = new
+//					// Gson().fromJson(
+//					// jsonObject.getString("Data").toString(),
+//					// DriverWorkStatus.class);
+//
+//					onSuccess(data, response);
+//					Log.d("Success", "testing");
+//				} catch (Exception e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				super.success(data, response);
+//			}
+//
+//			@Override
+//			public void complete() {
+//				onComplete();
+//				super.complete();
+//			}
+//
+//			@Override
+//			public void failure(NetworkError error) {
+//				onFailure(error);
+//				super.failure(error);
+//			}
+//
+//			@Override
+//			public void error(String message, HttpResponse response) {
+//				onError(message, response);
+//				super.error(message, response);
+//			}
+//		}).send();
+//
+//	}
+
+//	private void getDriverCommisionByDate(String url) {
+//		process.showDialog();
+//		Http http = HttpFactory.create(this.context);
+//		http.get(url).handler(new ResponseHandler<String>() {
+//			@Override
+//			public void success(String data, HttpResponse response) {
+//				String success = response.getHeaders().get("Success")
+//						.toString();
+//				onSuccess(data, success);
+//				super.success(data, response);
+//			}
+//
+//			@Override
+//			public void complete() {
+//				onComplete();
+//				super.complete();
+//			}
+//
+//			@Override
+//			public void failure(NetworkError error) {
+//				onFailure(error);
+//				super.failure(error);
+//			}
+//
+//			@Override
+//			public void error(String message, HttpResponse response) {
+//				onError(message, response);
+//				super.error(message, response);
+//			}
+//		}).send();
+//
+//	}
+
+//	private void getDriverDeliveryCountByDate(String url) {
+//		process.showDialog();
+//		Http http = HttpFactory.create(this.context);
+//		http.get(url).handler(new ResponseHandler<String>() {
+//			@Override
+//			public void success(String data, HttpResponse response) {
+//				String success = response.getHeaders().get("Success")
+//						.toString();
+//				onSuccess(data, success);
+//				super.success(data, response);
+//			}
+//
+//			@Override
+//			public void complete() {
+//				onComplete();
+//				super.complete();
+//			}
+//
+//			@Override
+//			public void failure(NetworkError error) {
+//				onFailure(error);
+//				super.failure(error);
+//			}
+//
+//			@Override
+//			public void error(String message, HttpResponse response) {
+//				onError(message, response);
+//				super.error(message, response);
+//			}
+//		}).send();
+//
+//	}
+
+//	private void forgotPassword(String url, Object object) {
+//		process.showDialog();
+//		Http http = HttpFactory.create(this.context);
+//		http.post(url).data(object).handler(new ResponseHandler<String>() {
+//			@Override
+//			public void success(String data, HttpResponse response) {
+//				onSuccess(data, response);
+//				super.success(data, response);
+//			}
+//
+//			@Override
+//			public void complete() {
+//				onComplete();
+//				super.complete();
+//			}
+//
+//			@Override
+//			public void failure(NetworkError error) {
+//				onFailure(error);
+//				super.failure(error);
+//			}
+//
+//			@Override
+//			public void error(String message, HttpResponse response) {
+//				onError(message, response);
+//				super.error(message, response);
+//			}
+//		}).send();
+//
+//	}
+
+//	private void getEmailAlreadyExists(String url) {
+//		process.showDialog();
+//		Http http = HttpFactory.create(this.context);
+//		http.get(url).handler(new ResponseHandler<String>() {
+//			@Override
+//			public void success(String data, HttpResponse response) {
+//				onSuccess(data, response);
+//				super.success(data, response);
+//			}
+//
+//			@Override
+//			public void complete() {
+//				onComplete();
+//				super.complete();
+//			}
+//
+//			@Override
+//			public void failure(NetworkError error) {
+//				onFailure(error);
+//				super.failure(error);
+//			}
+//
+//			@Override
+//			public void error(String message, HttpResponse response) {
+//				onError(message, response);
+//				super.error(message, response);
+//			}
+//		}).send();
+//
+//	}
+	
+	private void getDriverCurrentOrder(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				onSuccess(data, response);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+
+	
+	private void getDriverWorkStatus(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<DriverWorkStatus>() {
+			@Override
+			public void success(DriverWorkStatus data, HttpResponse response) {
+				try {
+//					JSONObject jsonObject = new JSONObject(data);
+//					DriverWorkStatus objDriverWorkStatus = new Gson().fromJson(
+//							jsonObject.getString("Data").toString(),
+//							DriverWorkStatus.class);
+
+					onSuccess(data, response);
+					Log.d("Success", "testing");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+	
+
+	private void getDriverCommisionByDate(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				String success = response.getHeaders().get("Success").toString();
+				onSuccess(data, success);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+	
+	
+	
+	private void getDriverDeliveryCountByDate(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				String success = response.getHeaders().get("Success").get(0).toString();
+				onSuccess(data, success);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+	
+	private void forgotPassword(String url, Object object) {
+		process.showDialog();	
+		Http http = HttpFactory.create(this.context);
+		http.post(url)
+		.data(object)
+		.handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				onSuccess(data, response);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+	
+	private void getEmailAlreadyExists(String url) {
+		process.showDialog();	
+		Http http = HttpFactory.create(this.context);
+		http.get(url)
+		.handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				onSuccess(data, response);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+		
+	}
+	
+	private void updateDriverWorkStatus(String url, Object object) {
+		process.showDialog();	
+		Http http = HttpFactory.create(this.context);
+		http.post(url)
+		.data(object)
+		.handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				String success = response.getHeaders().get("Success").toString();
+				onSuccess(data, success);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+	}
+	
+	private void updateDriverStatus(String url, Object object) {
+		process.showDialog();	
+		Http http = HttpFactory.create(this.context);
+		http.post(url)
+		.data(object)
+		.handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				String success = response.getHeaders().get("Success").toString();
+				onSuccess(data, success);
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+	}
+
+//	private void getDriverCurrentOrder(String url) {
+//		process.showDialog();
+//		Http http = HttpFactory.create(this.context);
+//		http.get(url).handler(new ResponseHandler<String>() {
+//			@Override
+//			public void success(String data, HttpResponse response) {
+//				
+//				String success = "";
+//				String apiStatus = "";
+//				ResponseHeader objResponseHeader = new ResponseHeader(response);
+//				try {
+//					success = objResponseHeader.getSuccess();
+//					apiStatus = objResponseHeader.getApiStatus();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//
+//				try {
+//					if (success.equalsIgnoreCase("true")) {
+//						JSONObject objJsonObject = new JSONObject(data);
+//						JSONArray jsonArray = new JSONArray(objJsonObject.getString("Data"));
+//						DriverOrder[]  driverOrders = new Gson().fromJson(jsonArray.toString(), DriverOrder[].class);
+//						onSuccess(driverOrders, response);
+//					} else {
+//						ITZipzError objItZipzError = new ITZipzError(
+//								objResponseHeader);
+//						onSuccess(objItZipzError);
+//					}
+//
+//				} catch (Exception e) {					
+//					e.printStackTrace();
+//				}
+//				
+//				super.success(data, response);
+//			}
+//
+//			@Override
+//			public void complete() {
+//				onComplete();
+//				super.complete();
+//			}
+//
+//			@Override
+//			public void failure(NetworkError error) {
+//				onFailure(error);
+//				super.failure(error);
+//			}
+//
+//			@Override
+//			public void error(String message, HttpResponse response) {
+//				onError(message, response);
+//				super.error(message, response);
+//			}
+//		}).send();
+//
+//	}
+	
+		private void getLiveOrdersbyZipcode(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				String success = "";
+				 String apiStatus = "";
+				ResponseHeader objResponseHeader = new ResponseHeader(response);
+				try {
+					success = objResponseHeader.getSuccess();
+					apiStatus = objResponseHeader.getApiStatus();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				try {
+					if (success.equalsIgnoreCase("true")) {
+						JSONObject objJsonObject = new JSONObject(data);
+						LiveOrder[] objLiveOrder = new Gson().fromJson(
+								objJsonObject.getString("Data"),
+								LiveOrder[].class);
+						onSuccess(objLiveOrder, response);
+					} else {
+						ITZipzError objItZipzError = new ITZipzError(
+								objResponseHeader);
+						onSuccess(objItZipzError);
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+	}
+
+	private void saveDriversAcceptedOrders(String url, Object object) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.post(url).data(object).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				String success = "";
+				String message = "";
+				try {
+					JSONObject jsonObject = new JSONObject(data);
+					success = jsonObject.getString("Success");
+					message = jsonObject.getString("Data");
+
+					if (success.equalsIgnoreCase("True")) {
+						onSuccess(message, success);
+					} else {
+						ITZipzError objItZipzError = new ITZipzError();
+						objItZipzError.setSuccess("False");
+						objItZipzError.setApiStatus(jsonObject.getString("Data"));
+						objItZipzError.setErrorMessage(jsonObject.getString("Data"));
+						onSuccess(objItZipzError);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+	}
+	
+	private void getDriverByID(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				String success = "";
+				 String apiStatus = "";
+				ResponseHeader objResponseHeader = new ResponseHeader(response);
+				try {
+					success = objResponseHeader.getSuccess();
+					apiStatus = objResponseHeader.getApiStatus();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				try {
+					if (success.equalsIgnoreCase("true")) {
+						DriverSignUp driverSignUps = new Gson().fromJson(
+								data,
+								DriverSignUp.class);
+						onSuccess(driverSignUps, response);
+					} else {
+						ITZipzError objItZipzError = new ITZipzError(
+								objResponseHeader);
+						onSuccess(objItZipzError);
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+	}
+	
+	private void getDriverOrderCountsreport(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				String success = "";
+				 String apiStatus = "";
+				ResponseHeader objResponseHeader = new ResponseHeader(response);
+				try {
+					success = objResponseHeader.getSuccess();
+					apiStatus = objResponseHeader.getApiStatus();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				try {
+					if (success.equalsIgnoreCase("true")) {
+						JSONObject jsonObject = new JSONObject(data);
+						OrderCountReport objOrderCountReport = new Gson().fromJson(
+								jsonObject.getString("Data"),
+								OrderCountReport.class);
+						onSuccess(objOrderCountReport, response);
+					} else {
+						ITZipzError objItZipzError = new ITZipzError(
+								objResponseHeader);
+						onSuccess(objItZipzError);
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+	}
+	
+	private void getCurrentOrderbyorderID(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+
+				String success = "";
+				String apiStatus = "";
+				ResponseHeader objResponseHeader = new ResponseHeader(response);
+				try {
+					success = objResponseHeader.getSuccess();
+					apiStatus = objResponseHeader.getApiStatus();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				try {
+					if (success.equalsIgnoreCase("True")) {
+						FavouriteDriver[] favouriteDrivers = new Gson()
+								.fromJson(data, FavouriteDriver[].class);
+						onSuccess(favouriteDrivers, response);
+					} else {
+						ITZipzError objItZipzError = new ITZipzError(
+								objResponseHeader);
+						onSuccess(objItZipzError);
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+	
+	private void updateDriverProfile(String url, Object object) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.post(url).data(object).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				String success = "";
+				String apiStatus = "";
+				ResponseHeader objResponseHeader = new ResponseHeader(response);
+				try {
+					success = objResponseHeader.getSuccess();
+					apiStatus = objResponseHeader.getApiStatus();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					if (success.equalsIgnoreCase("True")) {
+						onSuccess(data, success);
+					}else{
+						ITZipzError objItZipzError = new ITZipzError(
+								objResponseHeader);
+						onSuccess(objItZipzError);
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+	
+		
+	private void getDriverRatings(String url) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.get(url).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				String success = "";
+				String apiStatus = "";
+				ResponseHeader objResponseHeader = new ResponseHeader(response);
+				try {
+					success = objResponseHeader.getSuccess();
+					apiStatus = objResponseHeader.getApiStatus();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					if (success.equalsIgnoreCase("True")) {
+						JSONObject jsonObject = new JSONObject(data);
+						data = jsonObject.getString("Data");
+						onSuccess(data, success);
+					}else{
+						ITZipzError objItZipzError = new ITZipzError(
+								objResponseHeader);
+						onSuccess(objItZipzError);
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+	
+	private void changePassword(String url, Object object) {
+		process.showDialog();
+		Http http = HttpFactory.create(this.context);
+		http.post(url).data(object).handler(new ResponseHandler<String>() {
+			@Override
+			public void success(String data, HttpResponse response) {
+				String success = "";
+				String apiStatus = "";
+				ResponseHeader objResponseHeader = new ResponseHeader(response);
+				try {
+					success = objResponseHeader.getSuccess();
+					apiStatus = objResponseHeader.getApiStatus();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					if (success.equalsIgnoreCase("True")) {
+						JSONObject jsonObject = new JSONObject(data);
+						String message = jsonObject.getString("Data");
+						onSuccess(message, success);
+					}else{
+						ITZipzError objItZipzError = new ITZipzError(
+								objResponseHeader);
+						onSuccess(objItZipzError);
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				super.success(data, response);
+			}
+
+			@Override
+			public void complete() {
+				onComplete();
+				super.complete();
+			}
+
+			@Override
+			public void failure(NetworkError error) {
+				onFailure(error);
+				super.failure(error);
+			}
+
+			@Override
+			public void error(String message, HttpResponse response) {
+				onError(message, response);
+				super.error(message, response);
+			}
+		}).send();
+
+	}
+	
+}

@@ -1,0 +1,387 @@
+package com.hotel_mockup_data;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.AbstractHttpEntity;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHeader;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.AbstractHttpParams;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.protocol.HttpContext;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.gson.JsonObject;
+import com.hotel_mockup_utils.Constants;
+import com.hotel_mockup_utils.DevicePreferences;
+
+import android.content.Context;
+import android.util.Base64;
+import android.util.Log;
+
+public class RestfulService {
+	private int timeout = 30000;
+	private HttpClient httpClient;
+	private HttpPost httpPost;
+	private HttpGet httpGet;
+	private HttpResponse httpResponse;
+
+	private String error;
+	private String responseString = null;
+
+	private ArrayList data;
+	
+	Context context;
+
+	public static String responseForLogin = "";
+
+	public RestfulService() {
+		this.httpClient = new DefaultHttpClient();
+		this.data = new ArrayList();
+	}
+	
+	public RestfulService(Context context) {
+		this.httpClient = new DefaultHttpClient();
+		this.data = new ArrayList();
+		this.context = context;
+		
+	}
+
+	public void setTimeout(int timeout) {
+		this.timeout = timeout;
+	}
+
+	public void post(String url) {
+		this.post(url, null);
+	}
+	
+	public String getStringFromInputStream(InputStream in) {
+
+		if (in == null) {
+			;
+			return null;
+		}
+
+		StringBuffer out = new StringBuffer();
+		byte[] b = new byte[1024];
+		try {
+			for (int i; (i = in.read(b)) != -1;) {
+				out.append(new String(b, 0, i));
+			}
+
+			String responseString = out.toString();
+			if (responseString != null) {
+				;
+				return out.toString();
+			}
+
+		} catch (IOException e) {
+			System.out.println(">>> Exception >>> " + e + " >>> Message >>> "
+					+ e.getMessage());
+		}
+		return null;
+	}
+
+	public String post(String url, List<NameValuePair> nameValuePairList) {
+		String response = "";
+		httpPost = new HttpPost(url);
+		httpClient.getParams().setParameter("http.socket.timeout", timeout);
+		httpClient = new DefaultHttpClient();
+		// AuthorizationUtility authorizationObj=new AuthorizationUtility();
+		// httpPost.addHeader("Authorization",authorizationObj.getAuthorization(LoginActivity.userNameString,LoginActivity.sessionTokenString));
+		StatusLine statusLine;
+		int responseCode = 0;
+		AbstractHttpEntity abstractHttpEntity;
+		try {
+			abstractHttpEntity = new UrlEncodedFormEntity(nameValuePairList,
+					HTTP.UTF_8);
+			abstractHttpEntity
+					.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
+			abstractHttpEntity.setContentEncoding("UTF-8");
+			httpPost.setEntity(abstractHttpEntity);
+			httpResponse = httpClient.execute(httpPost);
+			HttpEntity httpEntity = httpResponse.getEntity();
+			InputStream inputStream = httpEntity.getContent();
+			
+			Log.d("Data", getStringFromInputStream(inputStream ));
+			
+			Header[] headers = httpResponse.getAllHeaders();
+
+			for (Header header : headers) {
+				if (header.getName().toString().equalsIgnoreCase("Status")) {
+					response = header.getValue().toString();
+					if (!response.equals("200 OK")) {
+						return "true";
+					} else {
+						return response;
+					}
+				}
+			}
+
+			statusLine = httpResponse.getStatusLine();
+			Log.d(">>> Server Response >>>", statusLine.toString());
+
+			responseCode = httpResponse.getStatusLine().getStatusCode();
+			Log.d(">>> Server Response Code >>>", String.valueOf(responseCode));
+		} catch (UnsupportedEncodingException e) {
+			this.error = e.getMessage();
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			this.error = e.getMessage();
+			e.printStackTrace();
+		} catch (IOException e) {
+			this.error = e.getMessage();
+			e.printStackTrace();
+		}
+		return response;
+	}
+
+	public InputStream postWithDataInResponse(String url, JsonObject  jsonObject) {
+		InputStream inputStream = null;
+		String response = "";
+		httpPost = new HttpPost(url);
+		httpClient.getParams().setParameter("http.socket.timeout", timeout);
+		httpClient = new DefaultHttpClient();
+		httpPost.addHeader("Authorization",new DevicePreferences().getString(context, Constants.Authenticity_Token, ""));
+		httpPost.addHeader("Content-Type", Constants.Content_Type_Json);
+		StatusLine statusLine;
+		int responseCode = 0;
+		AbstractHttpEntity abstractHttpEntity;
+		try {
+//			abstractHttpEntity = new UrlEncodedFormEntity(jsonObject,
+//					HTTP.UTF_8);
+//			abstractHttpEntity
+//					.setContentType("application/josn; charset=UTF-8");
+//			abstractHttpEntity.setContentEncoding("UTF-8");
+//			httpPost.setEntity(abstractHttpEntity);
+			httpResponse = httpClient.execute(httpPost);
+			HttpEntity httpEntity = httpResponse.getEntity();
+
+			Header[] headers = httpResponse.getAllHeaders();
+
+			for (Header header : headers) {
+				if (header.getName().toString().equalsIgnoreCase("Status")) {
+					responseForLogin = header.getValue().toString();
+					if (!responseForLogin.equals("200 OK")) {
+						return null;
+					}
+					break;
+				}
+			}
+
+			inputStream = httpEntity.getContent();
+			// statusLine= httpResponse.getStatusLine();
+			// Log.d(">>> Server Response >>>", statusLine.toString());
+			//
+			// responseCode = httpResponse.getStatusLine().getStatusCode();
+			// Log.d(">>> Server Response Code >>>",
+			// String.valueOf(responseCode));
+		} catch (UnsupportedEncodingException e) {
+			this.error = e.getMessage();
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			this.error = e.getMessage();
+			e.printStackTrace();
+		} catch (IOException e) {
+			this.error = e.getMessage();
+			e.printStackTrace();
+		}
+		return inputStream;
+	}
+	
+	public InputStream loginPost(String url,
+			List<NameValuePair> nameValuePairList) {
+		InputStream inputStream = null;
+		String response = "";
+		httpPost = new HttpPost(url);
+		httpClient.getParams().setParameter("http.socket.timeout", timeout);
+		httpClient = new DefaultHttpClient();
+		// AuthorizationUtility authorizationObj=new AuthorizationUtility();
+		// httpPost.addHeader("Authorization",authorizationObj.getAuthorization(LoginActivity.userNameString,LoginActivity.sessionTokenString));
+		StatusLine statusLine;
+		int responseCode = 0;
+		AbstractHttpEntity abstractHttpEntity;
+		try {
+			abstractHttpEntity = new UrlEncodedFormEntity(nameValuePairList,
+					HTTP.UTF_8);
+			abstractHttpEntity
+					.setContentType("application/x-www-form-urlencoded; charset=UTF-8");
+			abstractHttpEntity.setContentEncoding("UTF-8");
+			httpPost.setEntity(abstractHttpEntity);
+			httpResponse = httpClient.execute(httpPost);
+			HttpEntity httpEntity = httpResponse.getEntity();
+
+			Header[] headers = httpResponse.getAllHeaders();
+
+			for (Header header : headers) {
+				if (header.getName().toString().equalsIgnoreCase("Status")) {
+					responseForLogin = header.getValue().toString();
+					if (!responseForLogin.equals("200 OK")) {
+						return null;
+					}
+					break;
+				}
+			}
+
+			inputStream = httpEntity.getContent();
+			// statusLine= httpResponse.getStatusLine();
+			// Log.d(">>> Server Response >>>", statusLine.toString());
+			//
+			// responseCode = httpResponse.getStatusLine().getStatusCode();
+			// Log.d(">>> Server Response Code >>>",
+			// String.valueOf(responseCode));
+		} catch (UnsupportedEncodingException e) {
+			this.error = e.getMessage();
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			this.error = e.getMessage();
+			e.printStackTrace();
+		} catch (IOException e) {
+			this.error = e.getMessage();
+			e.printStackTrace();
+		}
+		return inputStream;
+	}
+	
+	public String postData(String url,JSONObject obj) {
+	    // Create a new HttpClient and Post Header
+
+	    HttpParams myParams = new BasicHttpParams();
+	    HttpConnectionParams.setConnectionTimeout(myParams, 10000);
+	    HttpConnectionParams.setSoTimeout(myParams, 10000);
+	    HttpClient httpclient = new DefaultHttpClient(myParams );
+	    String json=obj.toString();
+
+	    try {
+
+	        HttpPost httppost = new HttpPost(url.toString());
+	        httppost.setHeader("Content-type", "application/json");
+	        httppost.addHeader("Authorization",new DevicePreferences().getString(context, Constants.Authenticity_Token, ""));
+
+	        StringEntity se = new StringEntity(obj.toString()); 
+	        se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+	        httppost.setEntity(se); 
+
+	        HttpResponse response = httpclient.execute(httppost);
+	        String temp = EntityUtils.toString(response.getEntity());
+	        Log.i("tag", temp);
+	        
+	        Header[] headers = response.getAllHeaders();
+	        for (Header header : headers) {
+				if (header.getName().toString().equalsIgnoreCase("Status")) {
+					responseForLogin = header.getValue().toString();
+					if (responseForLogin.equals("200 OK")) {
+						return "true";
+					}
+				}
+			}
+
+	    } catch (ClientProtocolException e) {
+	    	e.printStackTrace();
+	    } catch (IOException e) {
+	    	e.printStackTrace();
+	    }
+		return "false";
+	}
+
+	public InputStream getLogin(String urlString, String userName,
+			String password) {
+		InputStream inputStream = null;
+		httpClient = new DefaultHttpClient();
+		HttpContext localContext = new BasicHttpContext();
+		httpPost = new HttpPost(urlString);
+		try {
+			httpResponse = httpClient.execute(httpPost, localContext);
+			HttpEntity httpEntity = httpResponse.getEntity();
+
+			Header[] headers = httpResponse.getAllHeaders();
+			for (Header header : headers) {
+				if (header.getName().toString().equals("Status")) {
+					responseForLogin = header.getValue().toString();
+					if (!responseForLogin.equals("200 OK")) {
+						return null;
+					}
+					break;
+				}
+			}
+
+			inputStream = httpEntity.getContent();
+			StatusLine statusLine = httpResponse.getStatusLine();
+			Log.d(">>> Server Response >>>", statusLine.toString());
+
+			int responseCode = httpResponse.getStatusLine().getStatusCode();
+			Log.d(">>> Server Response Code >>>", String.valueOf(responseCode));
+			return inputStream;
+		} catch (Exception ex) {
+			Log.d(">>>Login User", ex.toString() + ">>>" + ex.getMessage());
+		}
+		return inputStream;
+	}
+
+	public InputStream get(String url) {
+		InputStream inputStream = null;
+		httpClient.getParams().setParameter("http.socket.timeout", timeout);
+		HttpContext localContext = new BasicHttpContext();
+		httpGet = new HttpGet(url);
+		// AuthorizationUtility authorizationObj=new AuthorizationUtility();
+		// httpGet.addHeader("Authorization",authorizationObj.getAuthorization(LoginActivity.userNameString,LoginActivity.sessionTokenString));
+
+		try {
+			httpResponse = httpClient.execute(httpGet, localContext);
+			HttpEntity httpEntity = httpResponse.getEntity();
+			inputStream = httpEntity.getContent();
+			StatusLine statusLine = httpResponse.getStatusLine();
+			Log.d(">>> Server Response >>>", statusLine.toString());
+
+			int responseCode = httpResponse.getStatusLine().getStatusCode();
+			Log.d(">>> Server Response Code >>>", String.valueOf(responseCode));
+			return inputStream;
+		} catch (UnsupportedEncodingException e) {
+			this.error = e.getMessage();
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			this.error = e.getMessage();
+			e.printStackTrace();
+		} catch (IOException e) {
+			this.error = e.getMessage();
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public String getError() {
+		return this.error;
+	}
+
+	public String getResponseText() {
+		return this.responseString;
+	}
+
+}

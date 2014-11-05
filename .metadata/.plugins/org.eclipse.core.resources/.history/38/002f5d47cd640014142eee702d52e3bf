@@ -1,0 +1,216 @@
+package com.hotel_mockup_activities;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONObject;
+
+import com.google.gson.JsonObject;
+import com.hotel_mockup.R;
+import com.hotel_mockup.R.id;
+import com.hotel_mockup.R.layout;
+import com.hotel_mockup.R.string;
+import com.hotel_mockup_data.RestWebservices;
+import com.hotel_mockup_utils.AlertDialogMessage;
+import com.hotel_mockup_utils.ConnectionDetector;
+import com.hotel_mockup_utils.Constants;
+import com.hotel_mockup_utils.DevicePreferences;
+
+import android.app.Activity;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.FrameLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+public class CancellationPolicyActivity extends BaseActivity {
+
+	Spinner daysSpinner;
+	Spinner conditionSpinner;
+	CheckBox nonRefundableCheckBox;
+	RadioGroup emailRadioGroup;
+	RadioGroup smsRadioGroup;
+	RadioGroup notificationRadioGroup;
+	Button saveButton;
+	RadioButton emailRadioButton;
+	RadioButton smsRadioButton;
+	RadioButton notificationRadioButton;
+
+	FrameLayout frameLayout;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		// setContentView(R.layout.cancellation_policy_layout);
+		frameLayout = (FrameLayout) findViewById(R.id.layout_container);
+		frameLayout.removeAllViews();
+		frameLayout.addView(getLayoutInflater().inflate(
+				R.layout.cancellation_policy_layout, null));
+
+		findViews();
+		setValues();
+		listeners();
+	}
+
+	public void findViews() {
+		stepsTextView = (TextView) findViewById(R.id.textview_base_stepstext);
+		pageNameTextView = (TextView) findViewById(R.id.textview_base_PageName);
+
+		daysSpinner = (Spinner) findViewById(R.id.spinner_cancelllation_policy_days);
+		conditionSpinner = (Spinner) findViewById(R.id.spinner_cancelllation_policy_condition);
+		nonRefundableCheckBox = (CheckBox) findViewById(R.id.checkbox_cancellation_policy_nonRefundable);
+		emailRadioGroup = (RadioGroup) findViewById(R.id.radioGroup_cancellationPolicy_email);
+		smsRadioGroup = (RadioGroup) findViewById(R.id.radioGroup_cancellationPolicy_sms);
+		notificationRadioGroup = (RadioGroup) findViewById(R.id.radioGroup_cancellationPolicy_notification);
+
+		saveButton = (Button) findViewById(R.id.button_cancellation_policy_save);
+	}
+
+	public void setValues() {
+
+		// Top Headers
+		Resources res = getResources();
+		String stepsString = String.format(res.getString(R.string.steps), 4);
+		stepsTextView.setText(stepsString);
+
+		pageNameTextView.setText("Cancellation Policy");
+
+		// Spinner Drop down elements
+		List<String> daysList = new ArrayList<String>();
+		daysList.add("Day of arrival (Check in time)");
+		daysList.add("day 1");
+		daysList.add("day 2");
+		daysList.add("day 3");
+		daysList.add("day 7");
+		daysList.add("day 14");
+
+		ArrayAdapter<String> daysAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, daysList);
+		daysAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		daysSpinner.setAdapter(daysAdapter);
+		
+		//condition spinner
+		List<String> conditionList = new ArrayList<String>();
+		conditionList.add("of the first night");
+		conditionList.add("of the full stay");
+
+		ArrayAdapter<String> conditionAdapter = new ArrayAdapter<String>(this,
+				android.R.layout.simple_spinner_item, conditionList);
+		conditionAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		conditionSpinner.setAdapter(conditionAdapter);
+
+	}
+
+	public void listeners() {
+
+		daysSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+
+			}
+		});
+
+		emailRadioGroup.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				int selected = emailRadioGroup.getCheckedRadioButtonId();
+				emailRadioButton = (RadioButton) findViewById(selected);
+
+			}
+		});
+
+		smsRadioGroup.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				int selected = smsRadioGroup.getCheckedRadioButtonId();
+				smsRadioButton = (RadioButton) findViewById(selected);
+
+			}
+		});
+
+		notificationRadioGroup.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				int selected = notificationRadioGroup.getCheckedRadioButtonId();
+				notificationRadioButton = (RadioButton) findViewById(selected);
+
+			}
+		});
+
+		saveButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				if (!new ConnectionDetector(CancellationPolicyActivity.this)
+						.isConnectedToInternet()) {
+					new AlertDialogMessage(CancellationPolicyActivity.this)
+							.showMessage("Error", Constants.NO_Internet);
+					return;
+				}
+				saveInformation();
+			}
+		});
+	}
+	
+public void saveInformation(){ 
+	
+	if(smsRadioButton.getText().toString().equalsIgnoreCase("No") ){
+		new AlertDialogMessage(CancellationPolicyActivity.this).showMessage("Error", "Please select yes from any of the 3 ways");
+		return;
+	}
+//		JsonObject jsonObject = new JsonObject();
+//		jsonObject.addProperty("owner_landline_country_code", "");
+//		jsonObject.addProperty("owner_landline_area_code", "");
+//		jsonObject.addProperty("owner_landline_no", "222222");
+//		
+//		
+//		
+//		Object object = jsonObject;
+		
+//		String extraParameter = new DevicePreferences().getString(CancellationPolicyActivity.this, Constants.Hotel_Id, "0");
+//		
+//		new RestWebservices(CancellationPolicyActivity.this){
+//			public void onSuccess(String data, com.restservice.HttpResponse response) {
+//				try {
+//					JSONObject jsonObject = new JSONObject(data);
+//						
+//					String idString = jsonObject.getString("id");
+//					new DevicePreferences().addKey(CancellationPolicyActivity.this, Constants.Hotel_Id, idString);
+//					new AlertDialogMessage(CancellationPolicyActivity.this).showMessage("Success", "Data saved successfully");
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//					new AlertDialogMessage(CancellationPolicyActivity.this).showMessage("Error", "Some error occured while saving");
+//				}
+//			};
+//			
+//			public void onError(String message, com.restservice.HttpResponse response) {
+//				new AlertDialogMessage(CancellationPolicyActivity.this).showMessage("Error", message);
+//			};
+//		}.cancellationPolicy(Constants.createHotel, extraParameter, null);
+	}
+
+}

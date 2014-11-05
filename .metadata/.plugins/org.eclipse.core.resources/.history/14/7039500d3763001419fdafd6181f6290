@@ -1,0 +1,16 @@
+package com.hotel_mockup.entities;
+
+public class LoginUser {
+	
+	String confirmation_token;
+	String created_at;
+	display_name;String 
+	String email;
+	String encrypted_password;
+	String id;
+	String remember_token;
+	String roles;
+	String salt;
+	String updated_at;
+
+}

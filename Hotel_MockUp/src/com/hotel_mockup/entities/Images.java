@@ -1,0 +1,30 @@
+package com.hotel_mockup.entities;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Images implements Serializable{
+
+	ArrayList<String> addedImageArrayList;
+	ArrayList<String> deletedImageArrayList;
+	
+	public Images(ArrayList<String> addedImageArrayList, ArrayList<String> deletedImageArrayList) {
+		this.addedImageArrayList = addedImageArrayList;
+		this.deletedImageArrayList = deletedImageArrayList;
+	}
+	
+	
+	public ArrayList<String> getAddedImageArrayList() {
+		return addedImageArrayList;
+	}
+	public void setAddedImageArrayList(ArrayList<String> addedImageArrayList) {
+		this.addedImageArrayList = addedImageArrayList;
+	}
+	public ArrayList<String> getDeletedImageArrayList() {
+		return deletedImageArrayList;
+	}
+	public void setDeletedImageArrayList(ArrayList<String> deletedImageArrayList) {
+		this.deletedImageArrayList = deletedImageArrayList;
+	}
+	
+}
