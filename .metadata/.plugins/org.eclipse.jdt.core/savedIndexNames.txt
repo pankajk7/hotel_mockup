@@ -1,0 +1,7 @@
+INDEX VERSION 1.126+C:\project_work\hotel_mockup\.metadata\.plugins\org.eclipse.jdt.core
+655070916.index
+245134091.index
+2163538804.index
+1431882025.index
+1923635092.index
+208473268.index

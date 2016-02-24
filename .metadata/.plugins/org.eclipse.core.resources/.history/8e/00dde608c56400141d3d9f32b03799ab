@@ -1,0 +1,42 @@
+package com.hotel_mockup_utils;
+
+public class Constants {
+	
+	
+	public final static String cloud_name = "dupm90oys";
+	public final static String api_key = "463322914248498";
+	public final static String api_secret = "ZigrckTQXlMAdwW1sISnvVljIAU";
+	
+	public final static String Authenticity_Token = "authenticity_token";
+	public final static String Content_Type_Json = "application/json";
+	
+	public final static String NO_Internet = "No Internet found, Please enable mobile data or wifi";
+	
+	public final static String Hotel_Id = "id";
+	
+	public final static String PREF_FILE_NAME = "hotel_mockup";
+	public final static String primaryEmail = "primary_email";
+	public final static String name = "name";
+	public final static String zipCode = "zipcode";
+	public final static String city = "city";
+	public final static String address = "address";
+	public final static String landmark1 = "landmark_1";
+	public final static String landmark2 = "landmark_2";
+	public final static String website = "Website";
+	public final static String totalroom = "total_no_of_rooms";
+	public final static String description = "description";
+	public final static String twitterLink = "twitter_link";
+	public final static String facebookLink = "facebook_link";
+	public final static String checkInTime = "check_in_time";
+	public final static String checkOutTime = "check_out_time";
+	public final static String cutOffTime = "cut_of_time";
+	public final static String facility = "facility_ids";
+	public final static String latitude = "latitude";
+	public final static String longitude = "longitude";
+	
+	//API Calls
+	public final static String signIn = "session";
+	public final static String createHotel = "hotels";
+	public final static String image_create_update = "image/create_update_hotel_images";	
+	
+}

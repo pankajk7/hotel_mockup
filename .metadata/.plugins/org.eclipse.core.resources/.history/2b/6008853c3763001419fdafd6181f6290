@@ -1,0 +1,84 @@
+package com.mygrouptracker.mygrouptracker.data;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
+
+import android.content.Context;
+
+import com.mygrouptracker.mygrouptracker.R;
+import com.mygrouptracker.mygrouptracker.activity.ExpenseTracker;
+import com.mygrouptracker.mygrouptracker.activity.LoginActivity;
+import com.mygrouptracker.mygrouptracker.data.DataParser;
+
+import com.mygrouptracker.mygrouptracker.entity.AllEvents;
+import com.mygrouptracker.mygrouptracker.entity.AppointmentSummaryEntity;
+import com.mygrouptracker.mygrouptracker.entity.CompTimeEntity;
+import com.mygrouptracker.mygrouptracker.entity.ExpenseTrackerEntity;
+import com.mygrouptracker.mygrouptracker.entity.HolidayEntity;
+import com.mygrouptracker.mygrouptracker.entity.KellyDayEntity;
+import com.mygrouptracker.mygrouptracker.entity.Links;
+import com.mygrouptracker.mygrouptracker.entity.LoginUser;
+import com.mygrouptracker.mygrouptracker.entity.MemberGroupType;
+import com.mygrouptracker.mygrouptracker.entity.MessageEntity;
+import com.mygrouptracker.mygrouptracker.entity.OverTimeEntity;
+import com.mygrouptracker.mygrouptracker.entity.PaydayEntity;
+import com.mygrouptracker.mygrouptracker.entity.SharingNetwork;
+import com.mygrouptracker.mygrouptracker.entity.Shift;
+import com.mygrouptracker.mygrouptracker.entity.ShiftRegister;
+import com.mygrouptracker.mygrouptracker.entity.ShiftType;
+import com.mygrouptracker.mygrouptracker.entity.SickTimeEntity;
+import com.mygrouptracker.mygrouptracker.entity.SingleNameListEntity;
+import com.mygrouptracker.mygrouptracker.entity.SocialMedia;
+import com.mygrouptracker.mygrouptracker.entity.States;
+import com.mygrouptracker.mygrouptracker.entity.Station;
+import com.mygrouptracker.mygrouptracker.entity.TradeTimeEntity;
+import com.mygrouptracker.mygrouptracker.entity.UserType;
+import com.mygrouptracker.mygrouptracker.entity.VacationTimeEntity;
+import com.mygrouptracker.mygrouptracker.entity.WorkersCompEntity;
+import com.mygrouptracker.mygrouptracker.utility.Banners;
+import com.mygrouptracker.mygrouptracker.utility.StatusInfo;
+
+public class DataEngine {
+	Context context;
+	String urlString = "http://mygrouptrackerapp.com/api";
+//	String urlString="http://service.mygrouptrackerapp.com.192-185-7-4.secure5.win.hostgator.com/";
+//	String urlString="http://192.168.1.31:78";
+	
+	public DataEngine(Context context) {
+		this.context = context;
+	}
+
+
+	
+	public LoginUser checkLogin(String userName, String password)
+	{
+		urlString = urlString + "/loginuser";
+		RestfulService restfulService=new RestfulService();
+		DataParser dataParser= new DataParser();		
+		return dataParser.parseLoginDetails(restfulService.getLogin(urlString,userName,password));
+	}
+        
+	public ArrayList<AppointmentSummaryEntity> getAppointmentSummary() {
+		
+		urlString = urlString + "/appointment";
+		RestfulService restfulService=new RestfulService();
+		DataParser dataParser= new DataParser();		
+		return dataParser.parseAppointmentSummary(restfulService.get(urlString));
+	}
+	
+	
+	
+	
+}

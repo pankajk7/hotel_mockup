@@ -1,0 +1,29 @@
+package com.hotel_mockup_data;
+
+
+import com.hotel_mockup.entities.LoginUser;
+
+import android.content.Context;
+
+
+public class DataEngine {
+	Context context;
+	String urlString = "http://mygrouptrackerapp.com/api";
+//	String urlString="http://service.mygrouptrackerapp.com.192-185-7-4.secure5.win.hostgator.com/";
+//	String urlString="http://192.168.1.31:78";
+	
+	public DataEngine(Context context) {
+		this.context = context;
+	}
+
+	
+	public LoginUser checkLogin(String userName, String password)
+	{
+		urlString = urlString + "/loginuser";
+		RestfulService restfulService=new RestfulService();
+		DataParser dataParser= new DataParser();		
+		return dataParser.parseLoginDetails(restfulService.getLogin(urlString,userName,password));
+	}
+        
+	
+}

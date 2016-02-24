@@ -1,0 +1,290 @@
+package com.hotel_mockup_activities;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+
+import com.google.gson.JsonObject;
+import com.hotel_mockup.R;
+import com.hotel_mockup_data.DataEngine;
+import com.hotel_mockup_data.RestWebservices;
+import com.hotel_mockup_utils.AlertDialogMessage;
+import com.hotel_mockup_utils.BackgroundNetwork_withLoading;
+import com.hotel_mockup_utils.ConnectionDetector;
+import com.hotel_mockup_utils.Constants;
+import com.hotel_mockup_utils.DevicePreferences;
+import com.hotel_mockup_utils.Validations;
+
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.res.Resources;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
+
+public class HotelCreationActivity extends BaseActivity {
+
+	FrameLayout frameLayout;
+	Context context;
+
+	EditText primaryEmailEditText;
+	EditText nameEditText;
+	EditText zipCodeEditText;
+	EditText cityEditText;
+	EditText addressEditText;
+	EditText landMark1EditText;
+	EditText landMark2EditText;
+	EditText webSiteEditText;
+	EditText sameDayEditText;
+	EditText totalRoomEditText;
+	EditText facilitiesEditText;
+	EditText descriptionEditText;
+	EditText twitterLinkEditText;
+	EditText facebookLinkEditText;
+
+	TextView checkInTextView;
+	TextView checkOutTextView;
+
+	Button saveButton;
+	Button nextButton;
+
+	int mYear, mMonth, mDay;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		// setContentView(R.layout.home_creation_layout);
+		frameLayout = (FrameLayout) findViewById(R.id.layout_container);
+		frameLayout.removeAllViews();
+		frameLayout.addView(getLayoutInflater().inflate(
+				R.layout.hotel_creation_layout, null));
+
+		context = HotelCreationActivity.this;
+
+		findViews();
+		Listeners();
+		setValues();
+	}
+
+	public void findViews() {
+
+		stepsTextView = (TextView) findViewById(R.id.textview_base_stepstext);
+		pageNameTextView = (TextView) findViewById(R.id.textview_base_PageName);
+
+		primaryEmailEditText = (EditText) findViewById(R.id.edittext_hotel_creation_email);
+		nameEditText = (EditText) findViewById(R.id.edittext_hotel_creation_name);
+		zipCodeEditText = (EditText) findViewById(R.id.edittext_hotel_creation_zipcode);
+		cityEditText = (EditText) findViewById(R.id.edittext_hotel_creation_city);
+		addressEditText = (EditText) findViewById(R.id.edittext_hotel_creation_address);
+		landMark1EditText = (EditText) findViewById(R.id.edittext_hotel_creation_landmark1);
+		landMark2EditText = (EditText) findViewById(R.id.edittext_hotel_creation_landmark2);
+		webSiteEditText = (EditText) findViewById(R.id.edittext_hotel_creation_website);
+		totalRoomEditText = (EditText) findViewById(R.id.edittext_hotel_creation_totalroom);
+		descriptionEditText = (EditText) findViewById(R.id.edittext_hotel_creation_description);
+		twitterLinkEditText = (EditText) findViewById(R.id.edittext_hotel_creation_twitter);
+		facebookLinkEditText = (EditText) findViewById(R.id.edittext_hotel_creation_facebook);
+
+		checkInTextView = (TextView) findViewById(R.id.textview_hotel_creation_checkin);
+		checkOutTextView = (TextView) findViewById(R.id.textview_hotel_creation_checkout);
+
+		saveButton = (Button) findViewById(R.id.button_hotel_cration_save);
+		nextButton = (Button) findViewById(R.id.button_hotel_cration_next);
+		
+	}
+
+	public void Listeners() {
+		nextButton.setEnabled(true);
+		saveButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				
+				if(!new ConnectionDetector(context).isConnectedToInternet()){
+					new AlertDialogMessage(context).showMessage("Error", Constants.NO_Internet);
+					return;
+				}
+				
+				Validations objValidations = new Validations(
+						HotelCreationActivity.this);
+
+//				if (objValidations.validateHotelCreation(primaryEmailEditText,
+//						nameEditText, zipCodeEditText, cityEditText,
+//						addressEditText, landMark1EditText, landMark2EditText,
+//						webSiteEditText, sameDayEditText, totalRoomEditText,
+//						facilitiesEditText, descriptionEditText,
+//						twitterLinkEditText, facebookLinkEditText,
+//						checkInTextView, checkOutTextView)) {
+//					return;
+//				}
+
+//				DevicePreferences objDevicePreferences = new DevicePreferences();
+//				objDevicePreferences.addKey(context, Constants.primaryEmail,
+//						primaryEmailEditText.getText().toString());
+//				objDevicePreferences.addKey(context, Constants.name,
+//						nameEditText.getText().toString());
+//				objDevicePreferences.addKey(context, Constants.zipCode,
+//						zipCodeEditText.getText().toString());
+//				objDevicePreferences.addKey(context, Constants.city,
+//						cityEditText.getText().toString());
+//				objDevicePreferences.addKey(context, Constants.address,
+//						addressEditText.getText().toString());
+//				objDevicePreferences.addKey(context, Constants.landmark1,
+//						landMark1EditText.getText().toString());
+//				objDevicePreferences.addKey(context, Constants.landmark2,
+//						landMark2EditText.getText().toString());
+//				objDevicePreferences.addKey(context, Constants.website,
+//						webSiteEditText.getText().toString());
+//				objDevicePreferences.addKey(context, Constants.totalroom,
+//						totalRoomEditText.getText().toString());
+//				objDevicePreferences.addKey(context, Constants.description,
+//						descriptionEditText.getText().toString());
+//				objDevicePreferences.addKey(context, Constants.twitterLink,
+//						twitterLinkEditText.getText().toString());
+//				objDevicePreferences.addKey(context, Constants.facebookLink,
+//						facebookLinkEditText.getText().toString());
+//				nextButton.setEnabled(true);
+				
+				createHotel();
+			}
+		});
+
+		nextButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(context, HotelImageActivity.class);
+				startActivity(intent);
+				finish();
+			}
+		});
+
+		checkInTextView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				showDatePicker(v);
+			}
+		});
+
+		checkOutTextView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				showDatePicker(v);
+			}
+		});
+
+		webSiteEditText.setOnEditorActionListener(new OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_NEXT) {
+//					View view = getWindow().getCurrentFocus();
+					InputMethodManager imm = (InputMethodManager)getSystemService(
+						      Context.INPUT_METHOD_SERVICE);
+						imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+					showDatePicker(checkInTextView);
+				}
+				return false;
+			}
+		});
+
+		checkInTextView.setOnEditorActionListener(new OnEditorActionListener() {
+
+			@Override
+			public boolean onEditorAction(TextView v, int actionId,
+					KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_NEXT) {
+					showDatePicker(v);
+				}
+				return false;
+			}
+		});
+	}
+
+	public void setValues() {
+		Resources res = getResources();
+		String stepsString = String.format(res.getString(R.string.steps), 1);
+		stepsTextView.setText(stepsString);
+
+		pageNameTextView.setText("Registration");
+	}
+
+	public void showDatePicker(View view) {
+		final Calendar c = Calendar.getInstance();
+		mYear = c.get(Calendar.YEAR);
+		mMonth = c.get(Calendar.MONTH);
+		mDay = c.get(Calendar.DAY_OF_MONTH);
+
+		final TextView textview = (TextView) view;
+		
+		DatePickerDialog dpd = new DatePickerDialog(this,
+				new DatePickerDialog.OnDateSetListener() {
+
+					@Override
+					public void onDateSet(DatePicker view, int year,
+							int monthOfYear, int dayOfMonth) {
+						textview.setText((monthOfYear + 1) + "/" + dayOfMonth
+								+ "/" + year);
+					}
+				}, mYear, mMonth, mDay);
+		dpd.show();
+	}
+	
+	public void createHotel(){
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty(Constants.primaryEmail, "test7@test7.com");
+		jsonObject.addProperty(Constants.name, "name");
+		jsonObject.addProperty(Constants.zipCode, "111222");
+		jsonObject.addProperty(Constants.city, "udrpr");
+		jsonObject.addProperty(Constants.address, "addrr");
+		jsonObject.addProperty(Constants.landmark1, "mark1");
+		jsonObject.addProperty(Constants.totalroom, "3");
+		jsonObject.addProperty(Constants.description, "descrptn");
+		jsonObject.addProperty(Constants.checkInTime, "57600");
+		jsonObject.addProperty(Constants.checkOutTime, "43200");
+		jsonObject.addProperty(Constants.cutOffTime, "43200");
+		jsonObject.addProperty(Constants.facility, "9");
+		jsonObject.addProperty(Constants.latitude, "24.558");
+		jsonObject.addProperty(Constants.longitude, "73.7024");
+		
+		Object object = jsonObject;
+		
+		new RestWebservices(HotelCreationActivity.this){
+			public void onSuccess(String data, com.restservice.HttpResponse response) {
+				try {
+					JSONObject jsonObject = new JSONObject(data);
+						
+					String idString = jsonObject.getString("id");
+					new DevicePreferences().addKey(HotelCreationActivity.this, Constants.Hotel_Id, idString);
+					new AlertDialogMessage(HotelCreationActivity.this).showMessage("Success", "Data saved successfully");
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			};
+			
+			public void onError(String message, com.restservice.HttpResponse response) {
+				new AlertDialogMessage(HotelCreationActivity.this).showMessage("Error", message);
+			};
+		}.serviceCall(Constants.createHotel, "", object);
+	}
+
+}

@@ -1,0 +1,144 @@
+package com.hotel_mockup_data;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
+
+
+public class DataParser {
+	Context context;
+
+	public String getStringFromInputStream(InputStream in) {
+
+		if (in == null) {
+			;
+			return null;
+		}
+
+		StringBuffer out = new StringBuffer();
+		byte[] b = new byte[1024];
+		try {
+			for (int i; (i = in.read(b)) != -1;) {
+				out.append(new String(b, 0, i));
+			}
+
+			String responseString = out.toString();
+			if (responseString != null) {
+				;
+				return out.toString();
+			}
+
+		} catch (IOException e) {
+			System.out.println(">>> Exception >>> " + e + " >>> Message >>> "
+					+ e.getMessage());
+		}
+		return null;
+	}
+
+	public LoginUser parseLoginDetails(InputStream jsonResponseInputStream) {
+		return parseLoginDetails(getStringFromInputStream(jsonResponseInputStream));
+	}
+
+	public LoginUser parseLoginDetails(String jsonResponseString) {
+		LoginUser loginUserObj;
+		try {
+			if (jsonResponseString != null) {
+
+				loginUserObj = new LoginUser();
+
+				// JSONArray jsonArray = new JSONArray(jsonResponseString);
+				JSONObject jsonObject = new JSONObject(jsonResponseString);
+
+				try {
+					loginUserObj.userRefNo = jsonObject.getString("UserRefNo");
+				} catch (Exception exception) {
+					System.out.println(">>> Exception >>> " + exception
+							+ " >>> Message >>> " + exception.getMessage());
+				}
+				try {
+					loginUserObj.userLoginId = jsonObject
+							.getString("UserLoginId");
+				} catch (Exception exception) {
+					System.out.println(">>> Exception >>> " + exception
+							+ " >>> Message >>> " + exception.getMessage());
+				}
+				try {
+					loginUserObj.firstName = jsonObject.getString("FirstName");
+				} catch (Exception exception) {
+					System.out.println(">>> Exception >>> " + exception
+							+ " >>> Message >>> " + exception.getMessage());
+				}
+				try {
+					loginUserObj.lastName = jsonObject.getString("LastName");
+				} catch (Exception exception) {
+					System.out.println(">>> Exception >>> " + exception
+							+ " >>> Message >>> " + exception.getMessage());
+				}
+				try {
+					loginUserObj.sessionToken = jsonObject
+							.getString("SessionToken");
+				} catch (Exception exception) {
+					System.out.println(">>> Exception >>> " + exception
+							+ " >>> Message >>> " + exception.getMessage());
+				}
+				try {
+					loginUserObj.badge = jsonObject.getString("Badge");
+				} catch (Exception exception) {
+					System.out.println(">>> Exception >>> " + exception
+							+ " >>> Message >>> " + exception.getMessage());
+				}
+				try {
+					loginUserObj.memberShiftId = jsonObject
+							.getString("MemberShiftId");
+				} catch (Exception exception) {
+					System.out.println(">>> Exception >>> " + exception
+							+ " >>> Message >>> " + exception.getMessage());
+				}
+				try {
+					loginUserObj.memberTypeId = jsonObject
+							.getString("MemberTypeId");
+				} catch (Exception exception) {
+					System.out.println(">>> Exception >>> " + exception
+							+ " >>> Message >>> " + exception.getMessage());
+				}
+				try {
+					loginUserObj.groupMemberTypeId = jsonObject
+							.getString("GroupMemberTypeId");
+				} catch (Exception exception) {
+					System.out.println(">>> Exception >>> " + exception
+							+ " >>> Message >>> " + exception.getMessage());
+				}
+				try {
+					loginUserObj.type = jsonObject.getString("Type");
+				} catch (Exception exception) {
+					System.out.println(">>> Exception >>> " + exception
+							+ " >>> Message >>> " + exception.getMessage());
+				}
+				try {
+					loginUserObj.status = jsonObject.getBoolean("Status");
+				} catch (Exception exception) {
+					System.out.println(">>> Exception >>> " + exception
+							+ " >>> Message >>> " + exception.getMessage());
+				}
+
+				return loginUserObj;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		return null;
+	}
+
+	
+
+}

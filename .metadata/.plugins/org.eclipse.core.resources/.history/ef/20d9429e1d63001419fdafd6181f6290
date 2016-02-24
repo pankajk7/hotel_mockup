@@ -1,0 +1,75 @@
+package com.hotel_mockup_utils;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.provider.ContactsContract.CommonDataKinds.Email;
+import android.widget.EditText;
+
+public class Validations {
+
+	Context context;
+	
+	public Validations(Context context) {
+		this.context = context;
+	}
+	
+	public void showMessage(String message) {
+
+		AlertDialog.Builder altDialog = new AlertDialog.Builder(context);
+		altDialog.setMessage(message);
+		altDialog.setTitle("Error");
+		altDialog.setNeutralButton("OK", new DialogInterface.OnClickListener() {
+
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				
+//				((Activity) context).finish();
+			}
+		});
+		altDialog.show();
+
+	}
+	
+	public Boolean validateHotelCreation(EditText primaryEmailEditText,
+	EditText nameEditText,
+	EditText zipCodeEditText,
+	EditText cityEditText,
+	EditText addressEditText,
+	EditText landMark1EditText,
+	EditText landMark2EditText,
+	EditText webSiteEditText,
+	EditText sameDayEditText,
+	EditText totalRoomEditText,
+	EditText facilitiesEditText,
+	EditText descriptionEditText,
+	EditText twitterLinkEditText,
+	EditText facebookLinkEditText){
+		
+		String email1 = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+\\.+[a-z]+";
+		String email2 = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+		String emailId = primaryEmailEditText.getText().toString().trim();
+		
+		String name1 = "[a-zA-Z]+([ -][a-zA-Z]+)*";
+		String name2 = "[A-Z][a-zA-Z]*";
+		String name = nameEditText.getText().toString().trim();
+		
+		
+
+		if (!((emailId.matches(email1)) || (emailId.matches(email2)))) {
+			showMessage("Please enter valid Email.");
+			return true;
+
+		}else if(!((name.matches(name1)) || (name.matches(name2)))) {
+			showMessage("Please enter Name.");
+			return true;
+		}else if(zipCodeEditText.getText().toString().trim().length() < 5) {
+			showMessage("Please enter valid zipcode.");
+			return true;
+		}
+		
+		return false;
+		
+	}
+	
+}

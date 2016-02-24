@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hotel MockUp</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="steps">Steps %1$d of 4</string>
+    <string name="primaryEmail">Primary Email*</string>
+    <string name="name">Name*</string>
+    <string name="zipcode">ZipCode*</string>
+    <string name="city">City*</string>
+    <string name="address">Address*</string>
+    <string name="map">Map</string>
+    <string name="landmark1">LandMark 1*</string>
+    <string name="landmark2">LandMark 2</string>
+    <string name="website">Website</string>
+    <string name="checkin">Check in Time</string>
+    <string name="checkout">Check out Time</string>
+    <string name="cutoff">Cut off Time</string>
+    <string name="sameday">Same Day</string>
+    <string name="days">Days</string>
+    <string name="totalroom">Total no. of rooms</string>
+    <string name="facilities">Select Facilities</string>
+    <string name="Description">Description</string>
+    <string name="twitterlink">Twitter Link</string>
+    <string name="facebooklink">Facebook Link</string>
+    <string name="title_activity_information">InformationActivity</string>
+    <string name="primary_contact_information">Primary Contact Information</string>
+    <string name="primary_landline">Landline No.</string>
+    <string name="primary_mobile">Mobile No.</string>
+    <string name="primary_email">Email</string>
+    <string name="billing_landline">LandLine No.</string>
+    <string name="billing_mobile">Mobile No.</string>
+    <string name="billing_email">mobile</string>
+    <string name="owner_landline">LandLine No.</string>
+    <string name="owner_mobile">Mobile No.</string>
+    <string name="owner_email">mobile</string>
+    <string name="billing_contact_information">Billing Contact Information</string>
+    <string name="owner_contact_information">Owner Contact Information</string>
+    <string name="title_activity_image">ImageActivity</string>
+    <string name="title_activity_cancellation_policy">CancellationPolicyActivity</string>
+
+    <string-array name="Days">
+        <item>Day of arrival (Check in time)</item>
+        <item>day 1</item>
+        <item>day 2</item>
+        <item>day 3</item>
+        <item>day 7</item>
+        <item>day 14</item>
+    </string-array>
+    <string-array name="Condition">
+        <item>of the first night</item>
+        <item>of the full stay</item>
+    </string-array>
+
+    <string name="title_activity_login">LoginActivity</string>
+
+</resources>

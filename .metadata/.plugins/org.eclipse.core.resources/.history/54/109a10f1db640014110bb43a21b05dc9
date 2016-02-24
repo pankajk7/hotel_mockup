@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+             <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000" />
+             
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@color/lightBlue" >
+
+                <TextView
+                    android:id="@+id/textview_information_primaryContact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/primary_contact_information"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000" />
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/textviewstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/primary_landline"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edittext_information_primaryLandLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/textviewstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/primary_mobile"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edittext_information_primaryMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/textviewstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/primary_email"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edittext_information_primaryEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@color/lightBlue" >
+
+                <TextView
+                    android:id="@+id/textview_information_billingContact"
+                    style="@style/textviewstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/billing_contact_information"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000" />
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/textviewstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/billing_landline"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edittext_information_billingLandLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/textviewstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/billing_mobile"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edittext_information_billingMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/textviewstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/billing_email"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edittext_information_billingEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:background="@color/lightBlue" >
+
+                <TextView
+                    android:id="@+id/textview_information_ownerContact"
+                    style="@style/textviewstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/owner_contact_information"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000" />
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/textviewstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/owner_landline"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edittext_information_ownerLandLine"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/textviewstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/owner_mobile"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edittext_information_ownerMobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    style="@style/edittextstyle"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="0"
+                android:orientation="horizontal" >
+
+                <TextView
+                    style="@style/textviewstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:gravity="center_vertical|left"
+                    android:text="@string/owner_email"
+                    android:textSize="14dp" />
+
+                <EditText
+                    android:id="@+id/edittext_information_ownerEmail"
+                    style="@style/edittextstyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:singleLine="true" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/button_information_save"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/button_information_next"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:enabled="false"
+            android:text="Next" />
+    </LinearLayout>
+
+</LinearLayout>
